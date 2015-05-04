@@ -29,7 +29,11 @@ class PositionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('HolloTrackerBundle:Position')->findAll();
+        $entities = $em->getRepository('HolloTrackerBundle:Position')->findBy(
+            array(),
+            array('id' => 'DESC'),
+            500
+        );
 
         return array(
             'entities' => $entities,
