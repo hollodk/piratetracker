@@ -26,20 +26,19 @@ class PositionCommand extends ContainerAwareCommand
         $users = $em->getRepository('HolloTrackerBundle:User')->findAll();
         $key = array_rand($users);
 
-        $position = array(
+        $data = array(
             'lat' => 123,
             'lon' => 123
         );
-        $json = json_encode($position);
 
-        $ch = curl_init('http://dev.hollo.dk/piratetracker/web/app_dev.php/position');
+        $ch = curl_init('http://localhost/~mh/piratetracker/web/app_dev.php/position');
+        $http_string = http_build_query($data);
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $http_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $r = curl_exec($ch);
-        var_dump($r);
-
         curl_close($ch);
     }
 }

@@ -17,19 +17,21 @@ class ApiPositionController extends Controller
 {
     /**
      * @Route("")
-     * @Method("PUT")
      */
     public function updateAction(Request $request)
     {
-        $lat = $request->get('lat');
-        $lon = $request->get('lon');
+        $em = $this->getDoctrine()->getManager();
 
         $position = new Position;
-        $position->setLatitude($lat);
-        $position->setLongitude($lon);
+        $position->setLatitude($request->get('lat'));
+        $position->setLongitude($request->get('lon'));
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($position);
+        $user = $em->find('HolloTrackerBundle:User', 1);
+
+        $user->setPosition($position);
+        $position->setUser($user);
+
+        $em->persist($user);
         $em->flush();
 
         $response = new Response('ok');
@@ -54,7 +56,27 @@ class ApiPositionController extends Controller
      */
     public function getAllAction()
     {
-        $json = '[{"id":"4","latitude":"42.0000000","longitude":"42.0000000","user":"1","timestamp":"2015-04-14 18:03:36","created_at":"0000-00-00 00:00:00","updated_at":"0000-00-00 00:00:00"},{"id":"3","latitude":"12.0000000","longitude":"33.0000000","user":"1","timestamp":"2015-01-12 21:07:12","created_at":"0000-00-00 00:00:00","updated_at":"0000-00-00 00:00:00"},{"id":"2","latitude":"1000.0000000","longitude":"134.0000000","user":"1","timestamp":"2015-01-11 13:58:39","created_at":"0000-00-00 00:00:00","updated_at":"0000-00-00 00:00:00"},{"id":"1","latitude":"12.0000000","longitude":"33.0000000","user":"1","timestamp":"2015-01-11 13:58:32","created_at":"0000-00-00 00:00:00","updated_at":"0000-00-00 00:00:00"}]';
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('HolloTrackerBundle:User')->findAll();
+
+        $res = array();
+        foreach ($users as $user) {
+            $position = $user->getPosition();
+
+            $r = new \stdClass();
+            $r->id = $position->getId();
+            $r->user = $user->getId();
+
+            if ($position) {
+                $r->latitude = $position->getLatitude();
+                $r->longitude = $position->getLongitude();
+                $r->timestamp = $position->getCreatedAt()->format('Y-m-d H:i:s');
+            }
+
+            $res[] = $r;
+        }
+
+        $json = json_encode($res);
 
         $response = new Response($json);
         return $response;

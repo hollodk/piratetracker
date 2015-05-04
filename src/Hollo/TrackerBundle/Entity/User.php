@@ -64,6 +64,11 @@ class User
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Position", cascade={"persist"})
+     */
+    private $position;
+
 
     public function __toString()
     {
@@ -233,5 +238,28 @@ class User
     public function preUpdate()
     {
         $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * Set position
+     *
+     * @param \Hollo\TrackerBundle\Entity\Position $position
+     * @return User
+     */
+    public function setPosition(\Hollo\TrackerBundle\Entity\Position $position = null)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return \Hollo\TrackerBundle\Entity\Position
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 }
