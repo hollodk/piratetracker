@@ -27,8 +27,8 @@ class PositionCommand extends ContainerAwareCommand
         $key = array_rand($users);
 
         $data = array(
-            'lat' => 123,
-            'lon' => 123
+            'lat' => 123.123123,
+            'lon' => 123.123123
         );
 
         $ch = curl_init('http://localhost/~mh/piratetracker/web/app_dev.php/position');

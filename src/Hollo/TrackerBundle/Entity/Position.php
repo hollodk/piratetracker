@@ -25,14 +25,14 @@ class Position
     /**
      * @var float
      *
-     * @ORM\Column(name="latitude", type="float")
+     * @ORM\Column(name="latitude", type="float", scale=6)
      */
     private $latitude;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="longitude", type="float")
+     * @ORM\Column(name="longitude", type="float", scale=6)
      */
     private $longitude;
 
@@ -191,7 +191,7 @@ class Position
     /**
      * Get user
      *
-     * @return \Hollo\TrackerBundle\Entity\User 
+     * @return \Hollo\TrackerBundle\Entity\User
      */
     public function getUser()
     {
