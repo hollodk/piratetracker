@@ -13,12 +13,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ApiUserController extends Controller
 {
     /**
-     * @Route("/get")
+     * @Route("/{id}/get")
      */
-    public function getAction()
+    public function getAction($id)
     {
-        $response = new Response;
+        $em = $this->getDoctrine()->getManager();
 
+        $user = $em->find('HolloTrackerBundle:User', $id);
+
+        $res = new \stdClass();
+        $res->id = $user->getId();
+        $res->name = $user->getName();
+        $res->username = $user->getUsername();
+        $res->timestamp = $user->getCreatedAt()->format('Y-m-d H:i:s');
+
+        $response = new Response(json_encode($res));
         return $response;
     }
 }

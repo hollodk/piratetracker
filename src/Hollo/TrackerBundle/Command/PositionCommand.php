@@ -34,6 +34,7 @@ class PositionCommand extends ContainerAwareCommand
         $ch = curl_init('http://localhost/~mh/piratetracker/web/app_dev.php/position');
         $http_string = http_build_query($data);
 
+        curl_setopt($ch, CURLOPT_USERPWD, 'tonne:luder');
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $http_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

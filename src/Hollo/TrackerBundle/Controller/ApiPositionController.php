@@ -17,6 +17,7 @@ class ApiPositionController extends Controller
 {
     /**
      * @Route("")
+     * @Method("PUT")
      */
     public function updateAction(Request $request)
     {
@@ -26,12 +27,14 @@ class ApiPositionController extends Controller
         $position->setLatitude($request->get('lat'));
         $position->setLongitude($request->get('lon'));
 
-        $user = $em->find('HolloTrackerBundle:User', 1);
+        $user = $em->find('HolloTrackerBundle:User', $this->getUser()->getId());
 
         $user->setPosition($position);
         $position->setUser($user);
 
         $em->persist($user);
+        $em->persist($position);
+
         $em->flush();
 
         $response = new Response('ok');

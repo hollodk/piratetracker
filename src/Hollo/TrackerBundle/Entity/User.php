@@ -3,6 +3,7 @@
 namespace Hollo\TrackerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Hollo\TrackerBundle\Entity\UserRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -261,5 +262,37 @@ class User
     public function getPosition()
     {
         return $this->position;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->username,
+            $this->password
+        ) = unserialize($serialized);
     }
 }
