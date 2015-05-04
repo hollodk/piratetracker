@@ -14,6 +14,8 @@ Now to the source.
 git clone https://github.com/hollodk/piratetracker.git
 cd piratetracker
 php ../composer.phar install
+php app/console doctrine:database:create
+php app/console doctrine:schema:update --dump-sql --force
 chmod -R 777 app/cache app/logs
 ~~~~
 Now browse to the page http://localhost/piratetracker/web/app.php, if you have enabled mod_rewrite, you can leave app.php.
