@@ -1,3 +1,4 @@
-app:
-    resource: "@AppBundle/Controller/"
+hollo_tracker:
+    resource: "@HolloTrackerBundle/Controller/"
     type:     annotation
+    prefix:   /
