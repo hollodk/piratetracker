@@ -17,7 +17,7 @@ class ApiPositionController extends Controller
 {
     /**
      * @Route("")
-     * @Method("PUT")
+     * @Method({"PUT", "POST"})
      */
     public function updateAction(Request $request)
     {
