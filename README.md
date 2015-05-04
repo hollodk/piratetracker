@@ -13,6 +13,7 @@ Now to the source.
 ~~~~
 git clone https://github.com/hollodk/piratetracker.git
 cd piratetracker
+cp app/config/parameters.yml.dist app/config/parameters.yml
 php ../composer.phar install
 php app/console doctrine:database:create
 php app/console doctrine:schema:update --dump-sql --force
