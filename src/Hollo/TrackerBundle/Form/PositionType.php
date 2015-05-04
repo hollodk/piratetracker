@@ -17,12 +17,10 @@ class PositionType extends AbstractType
         $builder
             ->add('latitude')
             ->add('longitude')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('user')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

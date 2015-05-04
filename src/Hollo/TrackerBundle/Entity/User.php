@@ -65,6 +65,11 @@ class User
     private $updatedAt;
 
 
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
+
     /**
      * Get id
      *

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Hollo\TrackerBundle\Entity\Position;
 
 /**
  * @Route("/position")
@@ -23,7 +24,15 @@ class ApiPositionController extends Controller
         $lat = $request->get('lat');
         $lon = $request->get('lon');
 
-        $response = new Response($json);
+        $position = new Position;
+        $position->setLatitude($lat);
+        $position->setLongitude($lon);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($position);
+        $em->flush();
+
+        $response = new Response('ok');
         return $response;
     }
 

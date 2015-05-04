@@ -19,11 +19,9 @@ class UserType extends AbstractType
             ->add('username')
             ->add('email')
             ->add('password')
-            ->add('createdAt')
-            ->add('updatedAt')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
