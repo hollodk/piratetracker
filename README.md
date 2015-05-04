@@ -22,3 +22,12 @@ chmod -R 777 app/cache app/logs
 Now browse to the page http://localhost/piratetracker/web/app.php, if you have enabled mod_rewrite, you can leave app.php.
 
 Thats about it.. Have fun.
+
+Special urls
+============
+
+Run command to find all possible routes for the system, which includes CRUD to add data to system.
+
+~~~~
+php app/console router:debug
+~~~~
