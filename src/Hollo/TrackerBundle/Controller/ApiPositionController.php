@@ -47,9 +47,20 @@ class ApiPositionController extends Controller
      */
     public function getAction()
     {
-        $json = '{"id":"4","latitude":"42.0000000","longitude":"42.0000000","user":"1","timestamp":"2015-04-14 18:03:36","created_at":"0000-00-00 00:00:00","updated_at":"0000-00-00 00:00:00"}';
+        $user = $this->getUser();
+        $position = $user->getPosition();
 
-        $response = new Response($json);
+        $r = new \stdClass();
+        $r->user = $user->getId();
+
+        if ($position) {
+            $r->id = $position->getId();
+            $r->latitude = $position->getLatitude();
+            $r->longitude = $position->getLongitude();
+            $r->timestamp = $position->getCreatedAt()->format('Y-m-d H:i:s');
+        }
+
+        $response = new Response(json_encode($r));
         return $response;
     }
 
@@ -67,10 +78,10 @@ class ApiPositionController extends Controller
             $position = $user->getPosition();
 
             $r = new \stdClass();
-            $r->id = $position->getId();
             $r->user = $user->getId();
 
             if ($position) {
+                $r->id = $position->getId();
                 $r->latitude = $position->getLatitude();
                 $r->longitude = $position->getLongitude();
                 $r->timestamp = $position->getCreatedAt()->format('Y-m-d H:i:s');
