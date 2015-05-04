@@ -3,17 +3,22 @@
 namespace Hollo\TrackerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class DefaultController extends Controller
+/**
+ * @Route("/position")
+ */
+class PositionController extends Controller
 {
     /**
-     * @Route("/hello/{name}")
-     * @Template()
+     * @Route("/get")
      */
-    public function indexAction($name)
+    public function getAction()
     {
-        return array('name' => $name);
+        $response = new Response;
+
+        return $response;
     }
 }
