@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * @Route("/user")
@@ -14,6 +15,7 @@ class ApiUserController extends Controller
 {
     /**
      * @Route("/{id}/get")
+     * @Method("GET")
      */
     public function getAction($id)
     {
