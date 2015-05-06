@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UserType extends AbstractType
+class FractionType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,11 +16,6 @@ class UserType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('rank')
-            ->add('username')
-            ->add('email')
-            ->add('password')
-            ->add('fraction')
         ;
     }
 
@@ -30,7 +25,7 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Hollo\TrackerBundle\Entity\User'
+            'data_class' => 'Hollo\TrackerBundle\Entity\Fraction'
         ));
     }
 
@@ -39,6 +34,6 @@ class UserType extends AbstractType
      */
     public function getName()
     {
-        return 'hollo_trackerbundle_user';
+        return 'hollo_trackerbundle_fraction';
     }
 }

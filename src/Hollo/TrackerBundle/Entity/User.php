@@ -38,6 +38,13 @@ class User implements UserInterface, \Serializable
     private $username;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank", type="integer")
+     */
+    private $rank;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
@@ -69,6 +76,11 @@ class User implements UserInterface, \Serializable
      * @ORM\ManyToOne(targetEntity="Position", cascade={"persist"})
      */
     private $position;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Fraction", cascade={"persist"})
+     */
+    private $fraction;
 
 
     public function __toString()
@@ -294,5 +306,51 @@ class User implements UserInterface, \Serializable
             $this->username,
             $this->password
         ) = unserialize($serialized);
+    }
+
+    /**
+     * Set fraction
+     *
+     * @param \Hollo\TrackerBundle\Entity\Fraction $fraction
+     * @return User
+     */
+    public function setFraction(\Hollo\TrackerBundle\Entity\Fraction $fraction = null)
+    {
+        $this->fraction = $fraction;
+
+        return $this;
+    }
+
+    /**
+     * Get fraction
+     *
+     * @return \Hollo\TrackerBundle\Entity\Fraction
+     */
+    public function getFraction()
+    {
+        return $this->fraction;
+    }
+
+    /**
+     * Set rank
+     *
+     * @param integer $rank
+     * @return User
+     */
+    public function setRank($rank)
+    {
+        $this->rank = $rank;
+
+        return $this;
+    }
+
+    /**
+     * Get rank
+     *
+     * @return integer 
+     */
+    public function getRank()
+    {
+        return $this->rank;
     }
 }

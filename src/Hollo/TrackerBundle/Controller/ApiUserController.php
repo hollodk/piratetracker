@@ -25,7 +25,9 @@ class ApiUserController extends Controller
 
         $res = new \stdClass();
         $res->id = $user->getId();
+        $res->rank = $user->getRank();
         $res->name = $user->getName();
+        $res->fraction = $user->getFraction()->getId();
         $res->username = $user->getUsername();
         $res->timestamp = $user->getCreatedAt()->format('Y-m-d H:i:s');
 
