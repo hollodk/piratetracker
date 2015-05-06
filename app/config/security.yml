@@ -19,6 +19,7 @@ security:
                 realm: "Secured Demo Area"
 
     access_control:
-        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/fraction, roles: ROLE_USER }
         - { path: ^/position, roles: ROLE_USER }
+        - { path: ^/user, roles: ROLE_USER }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
