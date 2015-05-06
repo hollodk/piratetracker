@@ -1,42 +1,51 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>User</h1>
+<h1>User</h1>
 
-    <table class="table table-bordered">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ entity.name }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ entity.username }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ entity.email }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ entity.password }}</td>
-            </tr>
-            <tr>
-                <th>Createdat</th>
-                <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Updatedat</th>
-                <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="row">
+    <div class="col-sm-6">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ entity.name }}</td>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <td>{{ entity.username }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ entity.email }}</td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td>{{ entity.password }}</td>
+                </tr>
+                <tr>
+                    <th>Createdat</th>
+                    <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>Updatedat</th>
+                    <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-6">
+        {% if entity.profileImage %}
+        <img src="data:image/jpeg;base64,{{ entity.profileImage }}" width="100%">
+        {% endif %}
+    </div>
+</div>
 
-        <ul class="record_actions">
+<ul class="record_actions">
     <li>
         <a href="{{ path('admin_user') }}">
             Back to the list

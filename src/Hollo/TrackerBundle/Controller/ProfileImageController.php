@@ -38,6 +38,7 @@ class ProfileImageController extends Controller
 
         if ($form->isValid()) {
             $data = $form->getData();
+            $entity->setProfileImage(base64_encode(file_get_contents($data['file']->getPathName())));
 
             $em = $this->getDoctrine()->getManager();
             $em->flush();

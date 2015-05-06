@@ -32,17 +32,25 @@ class ApiUserController extends Controller
         $res->username = $user->getUsername();
         $res->timestamp = $user->getCreatedAt()->format('Y-m-d H:i:s');
 
+        if ($user->getProfileImage()) {
+            $res->profile_image = $user->getProfileImage();
+        }
+
         $response = new Response(json_encode($res));
         return $response;
     }
 
     /**
      * @Route("/update")
-     * @Method("PUT")
+     * @Method({"PUT", "POST"})
      */
     public function updateAction(Request $request)
     {
         $user = $this->getUser();
+
+        if ($request->files->get('profile_image') != null) {
+            $user->setProfileImage(base64_encode(file_get_contents($request->files->get('profile_image')->getPathName())));
+        }
 
         if (strlen($request->get('name')) > 0) {
             $user->setName($request->get('name'));
