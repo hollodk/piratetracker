@@ -4,6 +4,7 @@ namespace Hollo\TrackerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -32,6 +33,37 @@ class ApiUserController extends Controller
         $res->timestamp = $user->getCreatedAt()->format('Y-m-d H:i:s');
 
         $response = new Response(json_encode($res));
+        return $response;
+    }
+
+    /**
+     * @Route("/update")
+     * @Method("PUT")
+     */
+    public function updateAction(Request $request)
+    {
+        $user = $this->getUser();
+
+        if (strlen($request->get('name')) > 0) {
+            $user->setName($request->get('name'));
+        }
+
+        if (strlen($request->get('username')) > 0) {
+            $user->setUsername($request->get('username'));
+        }
+
+        if (strlen($request->get('password')) > 0) {
+            $user->setPassword($request->get('password'));
+        }
+
+        if (strlen($request->get('email')) > 0) {
+            $user->setEmail($request->get('email'));
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $response = new Response('ok');
         return $response;
     }
 }

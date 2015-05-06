@@ -4,6 +4,7 @@ namespace Hollo\TrackerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -26,6 +27,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
+     * @Assert\NotBlank
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -33,6 +35,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
+     * @Assert\NotBlank
      * @ORM\Column(name="username", type="string", length=255)
      */
     private $username;
@@ -40,6 +43,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var integer
      *
+     * @Assert\NotBlank
      * @ORM\Column(name="rank", type="integer")
      */
     private $rank;
@@ -47,6 +51,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
+     * @Assert\NotBlank
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
@@ -54,9 +59,17 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
+     * @Assert\NotBlank
      * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="profile_image", type="text", nullable=true)
+     */
+    private $profileImage;
 
     /**
      * @var \DateTime
@@ -78,6 +91,7 @@ class User implements UserInterface, \Serializable
     private $position;
 
     /**
+     * @Assert\NotBlank
      * @ORM\ManyToOne(targetEntity="Fraction", cascade={"persist"})
      */
     private $fraction;
@@ -347,10 +361,33 @@ class User implements UserInterface, \Serializable
     /**
      * Get rank
      *
-     * @return integer 
+     * @return integer
      */
     public function getRank()
     {
         return $this->rank;
+    }
+
+    /**
+     * Set profileImage
+     *
+     * @param string $profileImage
+     * @return User
+     */
+    public function setProfileImage($profileImage)
+    {
+        $this->profileImage = $profileImage;
+
+        return $this;
+    }
+
+    /**
+     * Get profileImage
+     *
+     * @return string 
+     */
+    public function getProfileImage()
+    {
+        return $this->profileImage;
     }
 }
