@@ -28,10 +28,12 @@ class ApiUserController extends Controller
         $res->id = $user->getId();
         $res->rank = $user->getRank();
         $res->name = $user->getName();
-        $res->fraction = $user->getFraction()->getId();
         $res->username = $user->getUsername();
         $res->timestamp = $user->getCreatedAt()->format('Y-m-d H:i:s');
 
+        if ($user->getFraction()) {
+            $res->fraction = $user->getFraction()->getId();
+        }
         if ($user->getProfileImage()) {
             $res->profile_image = $user->getProfileImage();
         }
