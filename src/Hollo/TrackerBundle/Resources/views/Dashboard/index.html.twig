@@ -2,6 +2,34 @@
 
 {% block body %}
 
-{{ google_map(map) }}
+<div class="row">
+    <div class="col-sm-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Map of suspects
+            </div>
+            <div class="panel-body">
+                {{ google_map(map) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Pirates
+            </div>
+            <div class="panel-body">
+                {% for fraction in fractions %}
+                <h3>{{ fraction.name }}</h3>
+                {% for user in fraction.users %}
+                {% if currentUser is defined and currentUser == user %}[{% endif %}
+                <a href="{{ path('hollo_tracker_dashboard_track', {'id':user.id}) }}">{{ user.name }}</a>
+                {% if currentUser is defined and currentUser == user %}]{% endif %}<br>
+                {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
 
 {% endblock %}

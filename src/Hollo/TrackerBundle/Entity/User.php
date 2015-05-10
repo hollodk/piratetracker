@@ -96,6 +96,11 @@ class User implements UserInterface, \Serializable
      */
     private $fraction;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Position", mappedBy="user")
+     */
+    private $positions;
+
 
     public function __toString()
     {
@@ -384,10 +389,50 @@ class User implements UserInterface, \Serializable
     /**
      * Get profileImage
      *
-     * @return string 
+     * @return string
      */
     public function getProfileImage()
     {
         return $this->profileImage;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->positions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add positions
+     *
+     * @param \Hollo\TrackerBundle\Entity\Position $positions
+     * @return User
+     */
+    public function addPosition(\Hollo\TrackerBundle\Entity\Position $positions)
+    {
+        $this->positions[] = $positions;
+
+        return $this;
+    }
+
+    /**
+     * Remove positions
+     *
+     * @param \Hollo\TrackerBundle\Entity\Position $positions
+     */
+    public function removePosition(\Hollo\TrackerBundle\Entity\Position $positions)
+    {
+        $this->positions->removeElement($positions);
+    }
+
+    /**
+     * Get positions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPositions()
+    {
+        return $this->positions;
     }
 }

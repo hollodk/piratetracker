@@ -11,6 +11,8 @@ use Ivory\GoogleMap\Overlays\Animation;
 use Ivory\GoogleMap\Overlays\Marker;
 use Ivory\GoogleMap\Overlays\Polyline;
 use Hollo\TrackerBundle\Entity\Fraction;
+use Hollo\TrackerBundle\Entity\Position;
+use Hollo\TrackerBundle\Entity\User;
 use Hollo\TrackerBundle\Form\FractionType;
 
 /**
@@ -24,13 +26,79 @@ class DashboardController extends Controller
      */
     public function indexAction()
     {
+        $map = $this->getMap();
+
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('HolloTrackerBundle:User')->findAll();
+        $fractions = $em->getRepository('HolloTrackerBundle:Fraction')->findAll();
+
+        foreach ($entities as $entity) {
+            $position = $entity->getPosition();
+
+            if ($position) {
+                $this->addMarker($position, $map);
+            }
+        }
+
+        return array(
+            'map' => $map,
+            'fractions' => $fractions,
+        );
+    }
+
+    /**
+     * @Route("/{id}/track")
+     * @Template("HolloTrackerBundle:Dashboard:index.html.twig")
+     */
+    public function trackAction(User $entity)
+    {
+        $map = $this->getMap();
+
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('HolloTrackerBundle:Position')->findBy(
+            array(
+                'user' => $entity
+            ),
+            array(
+                'id' => 'ASC'
+            )
+        );
+        $fractions = $em->getRepository('HolloTrackerBundle:Fraction')->findAll();
+
+        if (count($entities) > 0) {
+            $polyline = new Polyline();
+            $polyline->setOption('strokeColor', '#0ff');
+
+            foreach ($entities as $position) {
+                $polyline->addCoordinate($position->getLatitude(), $position->getLongitude());
+            }
+
+            $map->addPolyline($polyline);
+        }
+
+        $position = $entity->getPosition();
+        if ($position) {
+            $this->addMarker($position, $map);
+        }
+
+        return array(
+            'map' => $map,
+            'fractions' => $fractions,
+            'currentUser' => $entity
+        );
+    }
+
+    private function getMap()
+    {
         $map = $this->get('ivory_google_map.map');
         $map->setCenter(57.0445, 9.93, true);
-        $map->setMapOption('zoom', 15);
+        $map->setMapOption('zoom', 14);
         $map->setStylesheetOption('width', '100%');
         $map->setStylesheetOption('height', '600px');
 
         $polyline = new Polyline();
+        $polyline->setOption('strokeColor', '#000');
+
         $polyline->addCoordinate(57.038030, 9.946145, true);
         $polyline->addCoordinate(57.038199, 9.948462, true);
         $polyline->addCoordinate(57.038980, 9.948215, true);
@@ -51,26 +119,18 @@ class DashboardController extends Controller
 
         $map->addPolyline($polyline);
 
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('HolloTrackerBundle:User')->findAll();
+        return $map;
+    }
 
-        foreach ($entities as $entity) {
-            $position = $entity->getPosition();
+    private function addMarker(Position $entity, $map)
+    {
+        $marker = new Marker();
 
-            $marker = new Marker();
+        $marker->setPrefixJavascriptVariable('marker_');
+        $marker->setPosition($entity->getLatitude(), $entity->getLongitude(), true);
+        $marker->setAnimation(Animation::DROP);
+        $marker->setOption('flat', true);
 
-            // Configure your marker options
-            $marker->setPrefixJavascriptVariable('marker_');
-            $marker->setPosition($position->getLatitude(), $position->getLongitude(), true);
-            $marker->setAnimation(Animation::DROP);
-
-            $marker->setOption('flat', true);
-
-            $map->addMarker($marker);
-        }
-
-        return array(
-            'map' => $map
-        );
+        $map->addMarker($marker);
     }
 }

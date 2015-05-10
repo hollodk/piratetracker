@@ -43,6 +43,11 @@ class Fraction
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="fraction")
+     */
+    private $users;
+
 
     public function __toString()
     {
@@ -143,5 +148,45 @@ class Fraction
     public function preUpdate()
     {
         $this->setUpdatedAt(new \DateTime());
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add users
+     *
+     * @param \Hollo\TrackerBundle\Entity\Fraction $users
+     * @return Fraction
+     */
+    public function addUser(\Hollo\TrackerBundle\Entity\Fraction $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \Hollo\TrackerBundle\Entity\User $users
+     */
+    public function removeUser(\Hollo\TrackerBundle\Entity\User $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }
