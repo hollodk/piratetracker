@@ -1,0 +1,3 @@
+services:
+    hollo_tracker.coordinate:
+        class: Hollo\TrackerBundle\Helper\CoordinateHelper

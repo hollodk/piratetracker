@@ -8,7 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Ivory\GoogleMap\Overlays\Animation;
+use Ivory\GoogleMap\Overlays\GroundOverlay;
+use Ivory\GoogleMap\Overlays\InfoWindow;
 use Ivory\GoogleMap\Overlays\Marker;
+use Ivory\GoogleMap\Overlays\MarkerImage;
 use Ivory\GoogleMap\Overlays\Polyline;
 use Hollo\TrackerBundle\Entity\Fraction;
 use Hollo\TrackerBundle\Entity\Position;
@@ -24,8 +27,10 @@ class DashboardController extends Controller
      * @Route("")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $this->baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
+
         $map = $this->getMap();
 
         $em = $this->getDoctrine()->getManager();
@@ -50,8 +55,10 @@ class DashboardController extends Controller
      * @Route("/{id}/track")
      * @Template("HolloTrackerBundle:Dashboard:index.html.twig")
      */
-    public function trackAction(User $entity)
+    public function trackAction(Request $request, User $entity)
     {
+        $this->baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
+
         $map = $this->getMap();
 
         $em = $this->getDoctrine()->getManager();
@@ -96,28 +103,15 @@ class DashboardController extends Controller
         $map->setStylesheetOption('width', '100%');
         $map->setStylesheetOption('height', '600px');
 
-        $polyline = new Polyline();
-        $polyline->setOption('strokeColor', '#000');
+        $this->setFirstRoute($map);
+        $this->setSecondRoute($map);
 
-        $polyline->addCoordinate(57.038030, 9.946145, true);
-        $polyline->addCoordinate(57.038199, 9.948462, true);
-        $polyline->addCoordinate(57.038980, 9.948215, true);
-        $polyline->addCoordinate(57.039230, 9.950801, true);
-        $polyline->addCoordinate(57.040392, 9.950119, true);
-        $polyline->addCoordinate(57.040342, 9.949422, true);
-        $polyline->addCoordinate(57.041355, 9.949476, true);
-        $polyline->addCoordinate(57.042689, 9.949154, true);
-        $polyline->addCoordinate(57.042686, 9.950334, true);
-        $polyline->addCoordinate(57.046208, 9.945023, true);
-        $polyline->addCoordinate(57.046742, 9.944165, true);
-        $polyline->addCoordinate(57.046985, 9.931506, true);
-        $polyline->addCoordinate(57.048505, 9.926313, true);
-        $polyline->addCoordinate(57.050988, 9.921378, true);
-        $polyline->addCoordinate(57.050530, 9.920777, true);
-        $polyline->addCoordinate(57.051286, 9.916786, true);
-        $polyline->addCoordinate(57.044385, 9.911947, true);
-
-        $map->addPolyline($polyline);
+        $this->addPirateImage($map);
+        $this->addFishImage($map);
+        $this->addIslandImage($map);
+        $this->addOctopusImage($map);
+        $this->addWormImage($map);
+        $this->addPartyImage($map);
 
         return $map;
     }
@@ -131,6 +125,102 @@ class DashboardController extends Controller
         $marker->setAnimation(Animation::DROP);
         $marker->setOption('flat', true);
 
+        $infoWindow = new InfoWindow();
+
+        $infoWindow->setPrefixJavascriptVariable('info_window_');
+        $infoWindow->setContent($this->renderView('HolloTrackerBundle:Dashboard:infobox.html.twig', array(
+            'position' => $entity
+        )));
+        $infoWindow->setAutoClose(true);
+
+        $marker->setInfoWindow($infoWindow);
+
         $map->addMarker($marker);
+    }
+
+    private function addPirateImage($map)
+    {
+        $groundOverlay = new GroundOverlay();
+        $groundOverlay->setPrefixJavascriptVariable('ground_overlay_');
+        $groundOverlay->setUrl($this->baseurl.'/bundles/hollotracker/images/skib_test.png');
+        $groundOverlay->setBound(57.049883, 9.929269, 57.052672, 9.940661, true, true);
+
+        $map->addGroundOverlay($groundOverlay);
+    }
+
+    private function addFishImage($map)
+    {
+        $groundOverlay = new GroundOverlay();
+        $groundOverlay->setPrefixJavascriptVariable('ground_overlay_');
+        $groundOverlay->setUrl($this->baseurl.'/bundles/hollotracker/images/fish.png');
+        $groundOverlay->setBound(57.051962, 9.943909, 57.053956, 9.947576, true, true);
+
+        $map->addGroundOverlay($groundOverlay);
+    }
+
+    private function addIslandImage($map)
+    {
+        $groundOverlay = new GroundOverlay();
+        $groundOverlay->setPrefixJavascriptVariable('ground_overlay_');
+        $groundOverlay->setUrl($this->baseurl.'/bundles/hollotracker/images/island.png');
+        $groundOverlay->setBound(57.053298, 9.948091, 57.055758, 9.952948, true, true);
+
+        $map->addGroundOverlay($groundOverlay);
+    }
+
+    private function addOctopusImage($map)
+    {
+        $groundOverlay = new GroundOverlay();
+        $groundOverlay->setPrefixJavascriptVariable('ground_overlay_');
+        $groundOverlay->setUrl($this->baseurl.'/bundles/hollotracker/images/octopus.png');
+        $groundOverlay->setBound(57.055541, 9.912285, 57.057831, 9.917540, true, true);
+
+        $map->addGroundOverlay($groundOverlay);
+    }
+
+    private function addWormImage($map)
+    {
+        $groundOverlay = new GroundOverlay();
+        $groundOverlay->setPrefixJavascriptVariable('ground_overlay_');
+        $groundOverlay->setUrl($this->baseurl.'/bundles/hollotracker/images/limworm.png');
+        $groundOverlay->setBound(57.058159, 9.898183, 57.060999, 9.911512, true, true);
+
+        $map->addGroundOverlay($groundOverlay);
+    }
+
+    private function addPartyImage($map)
+    {
+        $groundOverlay = new GroundOverlay();
+        $groundOverlay->setPrefixJavascriptVariable('ground_overlay_');
+        $groundOverlay->setUrl($this->baseurl.'/bundles/hollotracker/images/piragfest.png');
+        $groundOverlay->setBound(57.038362, 9.900834, 57.041758, 9.910619, true, true);
+
+        $map->addGroundOverlay($groundOverlay);
+    }
+
+    private function setFirstRoute($map)
+    {
+        $polyline = new Polyline();
+        $polyline->setOption('strokeColor', '#303030');
+
+        $route = $this->get('hollo_tracker.coordinate')->getFirstRoute();
+        foreach ($route as $r) {
+            $polyline->addCoordinate($r['lat'], $r['lon'], true);
+        }
+
+        $map->addPolyline($polyline);
+    }
+
+    private function setSecondRoute($map)
+    {
+        $polyline = new Polyline();
+        $polyline->setOption('strokeColor', '#303030');
+
+        $route = $this->get('hollo_tracker.coordinate')->getSecondRoute();
+        foreach ($route as $r) {
+            $polyline->addCoordinate($r['lat'], $r['lon'], true);
+        }
+
+        $map->addPolyline($polyline);
     }
 }
