@@ -35,6 +35,11 @@ class DashboardController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('HolloTrackerBundle:User')->findAll();
+        $shouts = $em->getRepository('HolloTrackerBundle:ShoutOut')->findBy(
+            array(),
+            array('id' => 'DESC'),
+            30
+        );
         $fractions = $em->getRepository('HolloTrackerBundle:Fraction')->findAll();
 
         foreach ($entities as $entity) {
@@ -48,6 +53,7 @@ class DashboardController extends Controller
         return array(
             'map' => $map,
             'fractions' => $fractions,
+            'shouts' => $shouts
         );
     }
 
@@ -71,6 +77,11 @@ class DashboardController extends Controller
             )
         );
         $fractions = $em->getRepository('HolloTrackerBundle:Fraction')->findAll();
+        $shouts = $em->getRepository('HolloTrackerBundle:ShoutOut')->findBy(
+            array(),
+            array('id' => 'DESC'),
+            30
+        );
 
         if (count($entities) > 0) {
             $polyline = new Polyline();
@@ -91,7 +102,8 @@ class DashboardController extends Controller
         return array(
             'map' => $map,
             'fractions' => $fractions,
-            'currentUser' => $entity
+            'currentUser' => $entity,
+            'shouts' => $shouts
         );
     }
 
