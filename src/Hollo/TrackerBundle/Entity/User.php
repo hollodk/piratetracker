@@ -429,7 +429,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get positions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPositions()
     {
