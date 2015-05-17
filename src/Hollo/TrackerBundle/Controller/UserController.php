@@ -19,6 +19,21 @@ class UserController extends Controller
 {
 
     /**
+     * @Route("/{id}/validate", name="admin_user_validate")
+     * @Method("GET")
+     * @Template()
+     */
+    public function validateAction(User $entity)
+    {
+        $entity->setValidated(true);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('admin_user'));
+    }
+
+    /**
      * Lists all User entities.
      *
      * @Route("/", name="admin_user")

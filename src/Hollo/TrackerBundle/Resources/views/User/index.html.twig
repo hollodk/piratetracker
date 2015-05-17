@@ -8,6 +8,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Fraction</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Createdat</th>
@@ -17,9 +18,10 @@
         </thead>
         <tbody>
         {% for entity in entities %}
-            <tr>
+        <tr {% if entity.validated == false %}class="danger"{% endif %}>
                 <td><a href="{{ path('admin_user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
+                <td>{% if entity.fraction %}{{ entity.fraction.name }}{% endif %}</td>
                 <td>{{ entity.username }}</td>
                 <td>{{ entity.email }}</td>
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
@@ -31,6 +33,9 @@
                     </li>
                     <li>
                         <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_user_validate', { 'id': entity.id }) }}">validate</a>
                     </li>
                 </ul>
                 </td>

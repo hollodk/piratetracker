@@ -65,6 +65,13 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="validated", type="boolean")
+     */
+    private $validated = false;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="profile_image", type="text", nullable=true)
@@ -434,5 +441,28 @@ class User implements UserInterface, \Serializable
     public function getPositions()
     {
         return $this->positions;
+    }
+
+    /**
+     * Set validated
+     *
+     * @param boolean $validated
+     * @return User
+     */
+    public function setValidated($validated)
+    {
+        $this->validated = $validated;
+
+        return $this;
+    }
+
+    /**
+     * Get validated
+     *
+     * @return boolean 
+     */
+    public function getValidated()
+    {
+        return $this->validated;
     }
 }
