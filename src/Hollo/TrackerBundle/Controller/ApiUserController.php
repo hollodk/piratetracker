@@ -35,8 +35,6 @@ class ApiUserController extends Controller
         }
         if ($user->getProfileImage()) {
             $res->profile_image = $user->getProfileImage();
-        }
-        if ($user->getProfileImage()) {
             $res->profile_image_link = $this->generateUrl(
                 'hollo_tracker_media_index', array(
                     'id' => $user->getId(),
