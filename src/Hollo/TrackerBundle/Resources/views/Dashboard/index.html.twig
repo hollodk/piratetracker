@@ -4,6 +4,7 @@
 
 <div class="row">
     <div class="col-md-9">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') == false %}
         <div class="panel panel-primary visible-sm visible-xs">
             <div class="panel-heading">
                 Signup
@@ -13,6 +14,7 @@
                 <a class="btn btn-primary" href="{{ path('hollo_tracker_signup_index') }}">Sign up</a>
             </div>
         </div>
+        {% endif %}
 
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -43,6 +45,7 @@
 
     </div>
     <div class="col-md-3">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') == false %}
         <div class="panel panel-primary hidden-sm hidden-xs">
             <div class="panel-heading">
                 Signup
@@ -52,6 +55,7 @@
                 <a class="btn btn-primary" href="{{ path('hollo_tracker_signup_index') }}">Sign up</a>
             </div>
         </div>
+        {% endif %}
 
         <div class="panel panel-default">
             <div class="panel-heading">
