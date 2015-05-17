@@ -10,13 +10,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Hollo\TrackerBundle\Entity\Position;
 
-/**
- * @Route("/fraction")
- */
 class ApiFractionController extends Controller
 {
     /**
-     * @Route("/get/all")
+     * @Route("/fraction/get/all")
+     * @Route("/api/fraction/get/all")
      * @Method("GET")
      */
     public function getAllAction()

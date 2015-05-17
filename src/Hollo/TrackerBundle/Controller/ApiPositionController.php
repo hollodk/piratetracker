@@ -10,13 +10,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Hollo\TrackerBundle\Entity\Position;
 
-/**
- * @Route("/position")
- */
 class ApiPositionController extends Controller
 {
     /**
-     * @Route("")
+     * @Route("/position")
+     * @Route("/api/position")
      * @Method({"PUT", "POST"})
      */
     public function updateAction(Request $request)
@@ -42,7 +40,8 @@ class ApiPositionController extends Controller
     }
 
     /**
-     * @Route("/get")
+     * @Route("/position/get")
+     * @Route("/api/position/get")
      * @Method("GET")
      */
     public function getAction()
@@ -65,7 +64,8 @@ class ApiPositionController extends Controller
     }
 
     /**
-     * @Route("/get/all")
+     * @Route("/position/get/all")
+     * @Route("/api/position/get/all")
      * @Method("GET")
      */
     public function getAllAction()

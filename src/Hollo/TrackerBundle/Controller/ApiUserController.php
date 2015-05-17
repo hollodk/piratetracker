@@ -9,13 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
-/**
- * @Route("/user")
- */
 class ApiUserController extends Controller
 {
     /**
-     * @Route("/{id}/get")
+     * @Route("/user/{id}/get")
+     * @Route("/api/user/{id}/get")
      * @Method("GET")
      */
     public function getAction($id)
@@ -43,7 +41,8 @@ class ApiUserController extends Controller
     }
 
     /**
-     * @Route("/update")
+     * @Route("/user/update")
+     * @Route("/api/user/update")
      * @Method({"PUT", "POST"})
      */
     public function updateAction(Request $request)
@@ -52,6 +51,10 @@ class ApiUserController extends Controller
 
         if ($request->files->get('profile_image') != null) {
             $user->setProfileImage(base64_encode(file_get_contents($request->files->get('profile_image')->getPathName())));
+        }
+
+        if ($request->files->get('profile_image_base64') != null) {
+            $user->setProfileImage($request->get('profile_image_base64'));
         }
 
         if (strlen($request->get('name')) > 0) {

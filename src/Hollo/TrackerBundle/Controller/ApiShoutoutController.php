@@ -10,13 +10,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Hollo\TrackerBundle\Entity\ShoutOut;
 
-/**
- * @Route("/shoutout")
- */
 class ApiShoutoutController extends Controller
 {
     /**
-     * @Route("")
+     * @Route("/shoutout")
+     * @Route("/api/shoutout")
      * @Method({"PUT", "POST"})
      */
     public function postAction(Request $request)
@@ -36,7 +34,8 @@ class ApiShoutoutController extends Controller
     }
 
     /**
-     * @Route("/get/all")
+     * @Route("/shoutout/get/all")
+     * @Route("/api/shoutout/get/all")
      * @Method("GET")
      */
     public function getAllAction()

@@ -9,13 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
-/**
- * @Route("/generel")
- */
 class ApiGenerelController extends Controller
 {
     /**
-     * @Route("/first-route")
+     * @Route("/generel/first-route")
+     * @Route("/api/generel/first-route")
      * @Method("GET")
      */
     public function firstrouteAction()
@@ -27,7 +25,8 @@ class ApiGenerelController extends Controller
     }
 
     /**
-     * @Route("/second-route")
+     * @Route("/generel/second-route")
+     * @Route("/api/generel/second-route")
      * @Method("GET")
      */
     public function secondrouteAction()
