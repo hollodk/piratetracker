@@ -34,15 +34,13 @@ class DashboardController extends Controller
 
         $center = null;
         $zoom = 14;
-        $r = $em->getRepository('HolloTrackerBundle:User')->findByMapFollow(true);
-        foreach ($r as $i) {
-            if ($i && $i->getPosition()) {
-                $center = array(
-                    'lat' => $i->getPosition()->getLatitude(),
-                    'lon' => $i->getPosition()->getLongitude()
-                );
-                $zoom = 15;
-            }
+        $r = $em->getRepository('HolloTrackerBundle:User')->findOneByMapFollow(true);
+        if ($r && $r->getPosition()) {
+            $center = array(
+                'lat' => $r->getPosition()->getLatitude(),
+                'lon' => $r->getPosition()->getLongitude()
+            );
+            $zoom = 15;
         }
 
         $map = $this->getMap($center, $zoom);

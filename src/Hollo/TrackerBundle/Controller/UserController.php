@@ -66,6 +66,14 @@ class UserController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
+
+            if ($entity->getMapFollow()) {
+                $e = $em->getRepository('HolloTrackerBundle:User')->findOneByMapFollow(true);
+                if ($e) {
+                    $e->setMapFollow(false);
+                }
+            }
+
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_user_show', array('id' => $entity->getId())));
@@ -207,6 +215,13 @@ class UserController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            if ($entity->getMapFollow()) {
+                $e = $em->getRepository('HolloTrackerBundle:User')->findOneByMapFollow(true);
+                if ($e) {
+                    $e->setMapFollow(false);
+                }
+            }
+
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_user_edit', array('id' => $id)));
