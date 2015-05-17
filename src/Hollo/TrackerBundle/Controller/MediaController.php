@@ -3,6 +3,7 @@
 namespace Hollo\TrackerBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -29,10 +30,9 @@ class MediaController extends Controller
 
             imagedestroy($im);
             imagedestroy($ng);
+            die();
         }
-        else {
-            echo 'An error occurred.';
-        }
-        die();
+
+        return new Response('Error occur');
     }
 }
