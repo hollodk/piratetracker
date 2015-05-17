@@ -86,6 +86,13 @@ class User implements UserInterface, \Serializable
     private $admin = false;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="map_follow", type="boolean")
+     */
+    private $mapFollow = false;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="profile_image", type="text", nullable=true)
@@ -530,5 +537,28 @@ class User implements UserInterface, \Serializable
     public function getIcon()
     {
         return $this->icon;
+    }
+
+    /**
+     * Set mapFollow
+     *
+     * @param boolean $mapFollow
+     * @return User
+     */
+    public function setMapFollow($mapFollow)
+    {
+        $this->mapFollow = $mapFollow;
+
+        return $this;
+    }
+
+    /**
+     * Get mapFollow
+     *
+     * @return boolean 
+     */
+    public function getMapFollow()
+    {
+        return $this->mapFollow;
     }
 }

@@ -30,10 +30,23 @@ class DashboardController extends Controller
     public function indexAction(Request $request)
     {
         $this->baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-
-        $map = $this->getMap();
-
         $em = $this->getDoctrine()->getManager();
+
+        $center = null;
+        $zoom = 14;
+        $r = $em->getRepository('HolloTrackerBundle:User')->findByMapFollow(true);
+        foreach ($r as $i) {
+            if ($i && $i->getPosition()) {
+                $center = array(
+                    'lat' => $i->getPosition()->getLatitude(),
+                    'lon' => $i->getPosition()->getLongitude()
+                );
+                $zoom = 15;
+            }
+        }
+
+        $map = $this->getMap($center, $zoom);
+
         $entities = $em->getRepository('HolloTrackerBundle:User')->findAll();
         $shouts = $em->getRepository('HolloTrackerBundle:ShoutOut')->findBy(
             array(),

@@ -24,6 +24,9 @@ class UserType extends AbstractType
             ->add('admin', 'checkbox', array(
                 'required' => false
             ))
+            ->add('mapFollow', 'checkbox', array(
+                'required' => false
+            ))
             ->add('icon')
         ;
     }
