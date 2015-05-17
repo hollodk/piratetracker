@@ -3,7 +3,7 @@
 {% block body %}
 
 <div class="row">
-    <div class="col-sm-9">
+    <div class="col-md-9">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Map of suspects
@@ -32,7 +32,7 @@
         </div>
 
     </div>
-    <div class="col-sm-3">
+    <div class="col-md-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Signup
@@ -49,13 +49,21 @@
             </div>
             <div class="panel-body">
                 {% for fraction in fractions %}
-                <h4>{{ fraction.name }} {% if fraction.icon %}<img src="{{ asset('bundles/hollotracker/images/'~fraction.icon) }}" />{% endif %}</h4>
+                <b>{{ fraction.name }} {% if fraction.icon %}<img style="height: 24px" src="{{ asset('bundles/hollotracker/images/'~fraction.icon) }}" />{% endif %}</b><br>
 
                 {% for user in fraction.users %}
                 {% if currentUser is defined and currentUser == user %}[{% endif %}
-                <a href="{{ path('hollo_tracker_dashboard_track', {'id':user.id}) }}">{{ user.name }}</a>
+                <a href="{{ path('hollo_tracker_dashboard_track', {'id':user.id}) }}">{{ user.username }}</a>
+                {% if user.position and user.position.lastReporting < 120 %}
+                <small><span class="label label-success">{{ user.position.lastReporting }} min ago</span></small>
+                {% else %}
+                <small><span class="label label-danger">silent</span></small>
+                {% endif %}
+
                 {% if currentUser is defined and currentUser == user %}]{% endif %}<br>
                 {% endfor %}
+
+                {% if loop.last == false %}<hr>{% endif %}
                 {% endfor %}
             </div>
         </div>

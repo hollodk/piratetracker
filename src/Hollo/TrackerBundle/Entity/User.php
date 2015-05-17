@@ -112,7 +112,6 @@ class User implements UserInterface, \Serializable
     private $position;
 
     /**
-     * @Assert\NotBlank
      * @ORM\ManyToOne(targetEntity="Fraction", cascade={"persist"})
      */
     private $fraction;
@@ -526,7 +525,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get icon
      *
-     * @return string 
+     * @return string
      */
     public function getIcon()
     {

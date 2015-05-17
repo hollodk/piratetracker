@@ -197,4 +197,15 @@ class Position
     {
         return $this->user;
     }
+
+    public function getLastReporting()
+    {
+        $diff = $this->getCreatedAt()->diff(new \DateTime());
+
+        $minutes = $diff->days * 24 * 60;
+        $minutes += $diff->h * 60;
+        $minutes += $diff->i;
+
+        return $minutes;
+    }
 }
