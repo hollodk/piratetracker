@@ -24,4 +24,5 @@ security:
         - { path: ^/fraction, roles: ROLE_USER }
         - { path: ^/position, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/shoutout, roles: ROLE_USER }
         - { path: ^/, roles: ROLE_USER }
