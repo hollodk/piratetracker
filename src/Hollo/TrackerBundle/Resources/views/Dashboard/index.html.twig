@@ -12,6 +12,25 @@
                 {{ google_map(map) }}
             </div>
         </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Shouts
+            </div>
+            <div class="panel-body">
+                {% for shout in shouts %}
+                <h4>{{ shout.user.username }} <small>{{ shout.user.fraction.name }}</small></h4>
+                <p>{{ shout.content }}<br>
+                <small class="text-muted">{{ shout.createdAt|date('m/d H:i') }}</small>
+                </p>
+
+                {% if loop.last == false %}
+                <hr>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
     <div class="col-sm-3">
         <div class="panel panel-primary">
@@ -36,24 +55,6 @@
                 <a href="{{ path('hollo_tracker_dashboard_track', {'id':user.id}) }}">{{ user.name }}</a>
                 {% if currentUser is defined and currentUser == user %}]{% endif %}<br>
                 {% endfor %}
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Shouts
-            </div>
-            <div class="panel-body">
-                {% for shout in shouts %}
-                <h4>{{ shout.user.username }} <small>{{ shout.user.fraction.name }}</small></h4>
-                <p>{{ shout.content }}<br>
-                <small class="text-muted">{{ shout.createdAt|date('m/d H:i') }}</small>
-                </p>
-
-                {% if loop.last == false %}
-                <hr>
-                {% endif %}
                 {% endfor %}
             </div>
         </div>
