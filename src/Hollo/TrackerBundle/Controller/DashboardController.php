@@ -125,12 +125,29 @@ class DashboardController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $shout = $em->getRepository('HolloTrackerBundle:ShoutOut')->getLatest($entity);
+        $bounce = false;
+
+        if ($shout) {
+            $diff = $shout->getCreatedAt()->diff(new \DateTime());
+
+            $minutes = $diff->days * 24 * 60;
+            $minutes += $diff->h * 60;
+            $minutes += $diff->i;
+
+            if ($minutes < 20) {
+                $bounce = true;
+            }
+        }
 
         $marker = new Marker();
         $marker->setPrefixJavascriptVariable('marker_');
         $marker->setPosition($position->getLatitude(), $position->getLongitude(), true);
-        $marker->setAnimation(Animation::DROP);
-        $marker->setOption('flat', true);
+
+        if ($bounce) {
+            $marker->setAnimation(Animation::BOUNCE);
+        } else {
+            $marker->setAnimation(Animation::DROP);
+        }
 
         $base = '/bundles/hollotracker/images/';
         $icon = 'marker-grey-small.png';
