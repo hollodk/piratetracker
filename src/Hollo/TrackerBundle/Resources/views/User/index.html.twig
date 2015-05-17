@@ -1,8 +1,9 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>User list</h1>
+<h1>User list</h1>
 
+<div class="table-responsive">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -17,8 +18,8 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
-        <tr {% if entity.validated == false %}class="danger"{% endif %}>
+            {% for entity in entities %}
+            <tr {% if entity.validated == false %}class="danger"{% endif %}>
                 <td><a href="{{ path('admin_user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
                 <td>{% if entity.fraction %}{{ entity.fraction.name }}{% endif %}</td>
@@ -27,28 +28,29 @@
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('admin_user_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_user_validate', { 'id': entity.id }) }}">validate</a>
-                    </li>
-                </ul>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_user_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_user_validate', { 'id': entity.id }) }}">validate</a>
+                        </li>
+                    </ul>
                 </td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
+</div>
 
-        <ul>
-        <li>
-            <a href="{{ path('admin_user_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+<ul>
+    <li>
+        <a href="{{ path('admin_user_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+{% endblock %}

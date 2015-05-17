@@ -1,7 +1,9 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Fraction list</h1>
+<h1>Fraction list</h1>
+
+<div class="table-responsive">
 
     <table class="table table-striped">
         <thead>
@@ -14,32 +16,33 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+            {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('admin_fraction_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('admin_fraction_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_fraction_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_fraction_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_fraction_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>
                 </td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
+</div>
 
-        <ul>
-        <li>
-            <a href="{{ path('admin_fraction_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+<ul>
+    <li>
+        <a href="{{ path('admin_fraction_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+{% endblock %}
