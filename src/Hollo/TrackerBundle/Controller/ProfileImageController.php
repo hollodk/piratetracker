@@ -13,21 +13,21 @@ use Hollo\TrackerBundle\Form\UserType;
 /**
  * User controller.
  *
- * @Route("/admin/user/profile/image")
+ * @Route("/user/profile/image")
  */
 class ProfileImageController extends Controller
 {
     /**
      * Edits an existing User entity.
      *
-     * @Route("", name="admin_user_profile_image")
+     * @Route("", name="user_profile_image")
      * @Template()
      */
     public function indexAction(Request $request)
     {
         $entity = $this->getUser();
         $form = $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_user_profile_image'))
+            ->setAction($this->generateUrl('user_profile_image'))
             ->setMethod('PUT')
             ->add('file', 'file')
             ->add('submit', 'submit', array('label' => 'Update'))
@@ -43,7 +43,7 @@ class ProfileImageController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_user'));
+            return $this->redirect($this->generateUrl('hollo_tracker_dashboard_index'));
         }
 
         return array(

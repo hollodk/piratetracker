@@ -5,6 +5,10 @@
 
 {{ form_start(form) }}
 <div class="form-group">
+    {{ form_label(form.admin) }}
+    {{ form_widget(form.admin) }}
+</div>
+<div class="form-group">
     {{ form_label(form.name) }}
     {{ form_widget(form.name, {'attr':{'class':'form-control'}}) }}
 </div>

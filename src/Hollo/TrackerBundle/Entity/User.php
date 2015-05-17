@@ -72,6 +72,13 @@ class User implements UserInterface, \Serializable
     private $validated = false;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="admin", type="boolean")
+     */
+    private $admin = false;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="profile_image", type="text", nullable=true)
@@ -304,7 +311,14 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        $roles = array();
+        $roles[] = 'ROLE_USER';
+
+        if ($this->getAdmin()) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+
+        return $roles;
     }
 
     public function eraseCredentials()
@@ -459,10 +473,33 @@ class User implements UserInterface, \Serializable
     /**
      * Get validated
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getValidated()
     {
         return $this->validated;
+    }
+
+    /**
+     * Set admin
+     *
+     * @param boolean $admin
+     * @return User
+     */
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * Get admin
+     *
+     * @return boolean
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
     }
 }
