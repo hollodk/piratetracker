@@ -63,7 +63,15 @@ class DashboardController extends Controller
     {
         $this->baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
 
-        $map = $this->getMap();
+        $center = null;
+        if ($entity->getPosition()) {
+            $center = array(
+                'lat' => $entity->getPosition()->getLatitude(),
+                'lon' => $entity->getPosition()->getLongitude()
+            );
+        }
+
+        $map = $this->getMap($center, 16);
 
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('HolloTrackerBundle:Position')->getRecent($entity);
@@ -77,7 +85,7 @@ class DashboardController extends Controller
 
         if (count($entities) > 0) {
             $polyline = new Polyline();
-            $polyline->setOption('strokeColor', '#0ff');
+            $polyline->setOption('strokeColor', '#ff8a00');
 
             foreach ($entities as $position) {
                 $polyline->addCoordinate($position->getLatitude(), $position->getLongitude());
@@ -98,11 +106,18 @@ class DashboardController extends Controller
         );
     }
 
-    private function getMap()
+    private function getMap($center = null, $zoom = 14)
     {
+        if ($center == null) {
+            $center = array(
+                'lat' => 57.0445,
+                'lon' => 9.93
+            );
+        }
+
         $map = $this->get('ivory_google_map.map');
-        $map->setCenter(57.0445, 9.93, true);
-        $map->setMapOption('zoom', 14);
+        $map->setCenter($center['lat'], $center['lon'], true);
+        $map->setMapOption('zoom', $zoom);
         $map->setStylesheetOption('width', '100%');
         $map->setStylesheetOption('height', '600px');
 
