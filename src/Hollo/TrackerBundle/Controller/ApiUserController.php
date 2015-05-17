@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Hollo\TrackerBundle\Entity\Image;
 
 class ApiUserController extends Controller
 {
@@ -48,13 +49,26 @@ class ApiUserController extends Controller
     public function updateAction(Request $request)
     {
         $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
 
         if ($request->files->get('profile_image') != null) {
             $user->setProfileImage(base64_encode(file_get_contents($request->files->get('profile_image')->getPathName())));
+
+            $image = new Image();
+            $image->setUser($this->getUser());
+            $image->setImage($user->getProfileImage());
+
+            $em->persist($image);
         }
 
         if ($request->files->get('profile_image_base64') != null) {
             $user->setProfileImage($request->get('profile_image_base64'));
+
+            $image = new Image();
+            $image->setUser($this->getUser());
+            $image->setImage($user->getProfileImage());
+
+            $em->persist($image);
         }
 
         if (strlen($request->get('name')) > 0) {
@@ -73,7 +87,6 @@ class ApiUserController extends Controller
             $user->setEmail($request->get('email'));
         }
 
-        $em = $this->getDoctrine()->getManager();
         $em->flush();
 
         $response = new Response('ok');

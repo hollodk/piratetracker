@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Hollo\TrackerBundle\Entity\User;
+use Hollo\TrackerBundle\Entity\Image;
 use Hollo\TrackerBundle\Form\UserType;
 
 /**
@@ -41,6 +42,12 @@ class ProfileImageController extends Controller
             $entity->setProfileImage(base64_encode(file_get_contents($data['file']->getPathName())));
 
             $em = $this->getDoctrine()->getManager();
+
+            $image = new Image();
+            $image->setUser($this->getUser());
+            $image->setImage($entity->getProfileImage());
+
+            $em->persist($image);
             $em->flush();
 
             return $this->redirect($this->generateUrl('hollo_tracker_dashboard_index'));
