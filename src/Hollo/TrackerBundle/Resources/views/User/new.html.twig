@@ -32,6 +32,10 @@
     {{ form_label(form.rank) }}
     {{ form_widget(form.rank, {'attr':{'class':'form-control'}}) }}
 </div>
+<div class="form-group">
+    {{ form_label(form.icon) }}
+    {{ form_widget(form.icon, {'attr':{'class':'form-control'}}) }}
+</div>
 
 {{ form_widget(form.submit, {'attr':{'class':'btn btn-primary'}}) }}
 {{ form_end(form) }}

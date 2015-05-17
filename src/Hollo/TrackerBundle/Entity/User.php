@@ -59,6 +59,13 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
+     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
+     */
+    private $icon;
+
+    /**
+     * @var string
+     *
      * @Assert\NotBlank
      * @ORM\Column(name="password", type="string", length=255)
      */
@@ -501,5 +508,28 @@ class User implements UserInterface, \Serializable
     public function getAdmin()
     {
         return $this->admin;
+    }
+
+    /**
+     * Set icon
+     *
+     * @param string $icon
+     * @return User
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Get icon
+     *
+     * @return string 
+     */
+    public function getIcon()
+    {
+        return $this->icon;
     }
 }

@@ -135,7 +135,9 @@ class DashboardController extends Controller
         $base = '/bundles/hollotracker/images/';
         $icon = 'marker-grey-small.png';
 
-        if ($entity->getFraction()) {
+        if (strlen($entity->getIcon()) > 0) {
+            $icon = $entity->getIcon();
+        } elseif ($entity->getFraction() && strlen($entity->getFraction()->getIcon()) > 0) {
             $icon = $entity->getFraction()->getIcon();
         }
         $marker->setIcon(sprintf('%s/%s/%s',

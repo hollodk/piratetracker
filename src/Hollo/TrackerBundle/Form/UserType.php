@@ -21,7 +21,10 @@ class UserType extends AbstractType
             ->add('email')
             ->add('password')
             ->add('fraction')
-            ->add('admin')
+            ->add('admin', 'checkbox', array(
+                'required' => false
+            ))
+            ->add('icon')
         ;
     }
 
