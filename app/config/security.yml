@@ -21,6 +21,7 @@ security:
     access_control:
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/\d+/track$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/signup$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/fraction, roles: ROLE_USER }
         - { path: ^/position, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_USER }

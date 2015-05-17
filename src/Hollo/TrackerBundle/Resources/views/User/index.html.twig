@@ -10,7 +10,6 @@
                 <th>Name</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Password</th>
                 <th>Createdat</th>
                 <th>Updatedat</th>
                 <th>Actions</th>
@@ -23,7 +22,6 @@
                 <td>{{ entity.name }}</td>
                 <td>{{ entity.username }}</td>
                 <td>{{ entity.email }}</td>
-                <td>{{ entity.password }}</td>
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>

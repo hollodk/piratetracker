@@ -44,7 +44,7 @@ class User implements UserInterface, \Serializable
      * @var integer
      *
      * @Assert\NotBlank
-     * @ORM\Column(name="rank", type="integer")
+     * @ORM\Column(name="rank", type="integer", nullable=true)
      */
     private $rank;
 

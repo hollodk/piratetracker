@@ -14,13 +14,23 @@
         </div>
     </div>
     <div class="col-sm-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Signup
+            </div>
+            <div class="panel-body">
+                <p>Not yet on-board? Follow this signup procedure.</p>
+                <a class="btn btn-primary" href="{{ path('hollo_tracker_signup_index') }}">Sign up</a>
+            </div>
+        </div>
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 Pirates
             </div>
             <div class="panel-body">
                 {% for fraction in fractions %}
-                <h3>{{ fraction.name }}</h3>
+                <h4>{{ fraction.name }}</h4>
                 {% for user in fraction.users %}
                 {% if currentUser is defined and currentUser == user %}[{% endif %}
                 <a href="{{ path('hollo_tracker_dashboard_track', {'id':user.id}) }}">{{ user.name }}</a>
