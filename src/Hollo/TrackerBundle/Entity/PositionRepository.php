@@ -12,4 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class PositionRepository extends EntityRepository
 {
+    public function getRecent(User $entity)
+    {
+        $date = new \DateTime();
+        $date->modify('-1 day');
+
+        return $this->createQueryBuilder('p')
+            ->where('p.user = :user')
+            ->andWhere('p.createdAt > :date')
+            ->orderBy('p.id', 'ASC')
+            ->setParameter('user', $entity)
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

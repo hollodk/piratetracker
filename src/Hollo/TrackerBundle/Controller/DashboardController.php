@@ -68,14 +68,8 @@ class DashboardController extends Controller
         $map = $this->getMap();
 
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('HolloTrackerBundle:Position')->findBy(
-            array(
-                'user' => $entity
-            ),
-            array(
-                'id' => 'ASC'
-            )
-        );
+        $entities = $em->getRepository('HolloTrackerBundle:Position')->getRecent($entity);
+
         $fractions = $em->getRepository('HolloTrackerBundle:Fraction')->findAll();
         $shouts = $em->getRepository('HolloTrackerBundle:ShoutOut')->findBy(
             array(),
