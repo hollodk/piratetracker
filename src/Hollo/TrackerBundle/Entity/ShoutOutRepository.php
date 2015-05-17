@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class ShoutOutRepository extends EntityRepository
 {
+    public function getLatest(User $entity)
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.user = :user')
+            ->orderBy('s.id', 'DESC')
+            ->setMaxResults(1)
+            ->setParameter('user', $entity)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

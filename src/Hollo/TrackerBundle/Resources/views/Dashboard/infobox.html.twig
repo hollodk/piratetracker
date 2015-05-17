@@ -1,4 +1,8 @@
-<p>{{ position.user.username }}<br> <small>({{ position.user.name }})</small></p>
-{% if position.user.profileImage %}
-<img src="data:image/png;base64, {{ position.user.profileImage }}" height="100"/>
+<p>{{ user.username }}<br> <small>({{ user.name }})</small></p>
+{% if shout %}
+<h5>{{ shout.content }}</h5>
 {% endif %}
+{% if user.profileImage %}
+<img src="data:image/png;base64, {{ user.profileImage }}" height="100"/>
+{% endif %}
+

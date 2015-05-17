@@ -43,10 +43,8 @@ class DashboardController extends Controller
         $fractions = $em->getRepository('HolloTrackerBundle:Fraction')->findAll();
 
         foreach ($entities as $entity) {
-            $position = $entity->getPosition();
-
-            if ($position) {
-                $this->addMarker($position, $map);
+            if ($entity->getPosition()) {
+                $this->addMarker($entity, $map);
             }
         }
 
@@ -88,9 +86,8 @@ class DashboardController extends Controller
             $map->addPolyline($polyline);
         }
 
-        $position = $entity->getPosition();
-        if ($position) {
-            $this->addMarker($position, $map);
+        if ($entity->getPosition()) {
+            $this->addMarker($entity, $map);
         }
 
         return array(
@@ -122,12 +119,17 @@ class DashboardController extends Controller
         return $map;
     }
 
-    private function addMarker(Position $entity, $map)
+    private function addMarker(User $entity, $map)
     {
         $marker = new Marker();
 
+        $position = $entity->getPosition();
+
+        $em = $this->getDoctrine()->getManager();
+        $shout = $em->getRepository('HolloTrackerBundle:ShoutOut')->getLatest($entity);
+
         $marker->setPrefixJavascriptVariable('marker_');
-        $marker->setPosition($entity->getLatitude(), $entity->getLongitude(), true);
+        $marker->setPosition($position->getLatitude(), $position->getLongitude(), true);
         $marker->setAnimation(Animation::DROP);
         $marker->setOption('flat', true);
 
@@ -135,7 +137,8 @@ class DashboardController extends Controller
 
         $infoWindow->setPrefixJavascriptVariable('info_window_');
         $infoWindow->setContent($this->renderView('HolloTrackerBundle:Dashboard:infobox.html.twig', array(
-            'position' => $entity
+            'user' => $entity,
+            'shout' => $shout
         )));
         $infoWindow->setAutoClose(true);
 
