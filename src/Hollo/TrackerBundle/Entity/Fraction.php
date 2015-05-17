@@ -30,6 +30,13 @@ class Fraction
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="icon", type="string", length=255)
+     */
+    private $icon;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -183,10 +190,33 @@ class Fraction
     /**
      * Get users
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Set icon
+     *
+     * @param string $icon
+     * @return Fraction
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Get icon
+     *
+     * @return string 
+     */
+    public function getIcon()
+    {
+        return $this->icon;
     }
 }

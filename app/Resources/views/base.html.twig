@@ -31,6 +31,9 @@
                         <li><a href="{{ path('admin_position') }}">Position</a></li>
                         <li><a href="{{ path('admin_shoutout') }}">Shout-out</a></li>
                         {% endif %}
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') == false %}
+                        <li><a href="{{ path('user_profile_image') }}">Login</a></li>
+                        {% endif %}
 
                     </ul>
                 </div><!-- /.nav-collapse -->

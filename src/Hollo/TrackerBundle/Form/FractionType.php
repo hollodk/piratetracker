@@ -14,8 +14,18 @@ class FractionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $icons = array(
+            'marker-green.png' => 'Green',
+            'marker-red.png' => 'Red',
+            'marker-yellow.png' => 'Yellow',
+            'marker-blue.png' => 'Blue'
+        );
+
         $builder
             ->add('name')
+            ->add('icon', 'choice', array(
+                'choices' => $icons
+            ))
         ;
     }
 

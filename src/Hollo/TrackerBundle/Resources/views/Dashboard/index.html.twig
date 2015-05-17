@@ -49,7 +49,8 @@
             </div>
             <div class="panel-body">
                 {% for fraction in fractions %}
-                <h4>{{ fraction.name }}</h4>
+                <h4>{{ fraction.name }} {% if fraction.icon %}<img src="{{ asset('bundles/hollotracker/images/'~fraction.icon) }}" />{% endif %}</h4>
+
                 {% for user in fraction.users %}
                 {% if currentUser is defined and currentUser == user %}[{% endif %}
                 <a href="{{ path('hollo_tracker_dashboard_track', {'id':user.id}) }}">{{ user.name }}</a>

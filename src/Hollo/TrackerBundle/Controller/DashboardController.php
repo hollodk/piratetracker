@@ -121,17 +121,28 @@ class DashboardController extends Controller
 
     private function addMarker(User $entity, $map)
     {
-        $marker = new Marker();
-
         $position = $entity->getPosition();
 
         $em = $this->getDoctrine()->getManager();
         $shout = $em->getRepository('HolloTrackerBundle:ShoutOut')->getLatest($entity);
 
+        $marker = new Marker();
         $marker->setPrefixJavascriptVariable('marker_');
         $marker->setPosition($position->getLatitude(), $position->getLongitude(), true);
         $marker->setAnimation(Animation::DROP);
         $marker->setOption('flat', true);
+
+        $base = '/bundles/hollotracker/images/';
+        $icon = 'marker-grey-small.png';
+
+        if ($entity->getFraction()) {
+            $icon = $entity->getFraction()->getIcon();
+        }
+        $marker->setIcon(sprintf('%s/%s/%s',
+            $this->baseurl,
+            $base,
+            $icon
+        ));
 
         $infoWindow = new InfoWindow();
 
