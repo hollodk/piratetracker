@@ -27,6 +27,7 @@ class ApiUserController extends Controller
         $res->id = $user->getId();
         $res->rank = $user->getRank();
         $res->name = $user->getName();
+        $res->map_follow = $user->getMapFollow();
         $res->username = $user->getUsername();
         $res->timestamp = $user->getCreatedAt()->format('Y-m-d H:i:s');
 
@@ -34,7 +35,6 @@ class ApiUserController extends Controller
             $res->fraction = $user->getFraction()->getId();
         }
         if ($user->getProfileImage()) {
-            $res->profile_image = $user->getProfileImage();
             $res->profile_image_link = $this->generateUrl(
                 'hollo_tracker_media_index', array(
                     'id' => $user->getId(),
@@ -68,7 +68,7 @@ class ApiUserController extends Controller
             $em->persist($image);
         }
 
-        if ($request->files->get('profile_image_base64') != null) {
+        if ($request->get('profile_image_base64') != null) {
             $user->setProfileImage($request->get('profile_image_base64'));
 
             $image = new Image();

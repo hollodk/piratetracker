@@ -36,7 +36,7 @@ class User implements UserInterface, \Serializable
      * @var string
      *
      * @Assert\NotBlank
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     private $username;
 
@@ -555,7 +555,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get mapFollow
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getMapFollow()
     {
