@@ -62,6 +62,8 @@ class ApiUserController extends Controller
             $user->setProfileImage(base64_encode(file_get_contents($request->files->get('profile_image')->getPathName())));
 
             $image = new Image();
+            $image->setLatitude($request->get('latitude'));
+            $image->setLongitude($request->get('longitude'));
             $image->setUser($this->getUser());
             $image->setImage($user->getProfileImage());
 

@@ -30,6 +30,20 @@ class Image
     private $image;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="latitude", type="float", scale=6)
+     */
+    private $latitude;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="longitude", type="float", scale=6)
+     */
+    private $longitude;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -122,10 +136,56 @@ class Image
     /**
      * Get user
      *
-     * @return \Hollo\TrackerBundle\Entity\User 
+     * @return \Hollo\TrackerBundle\Entity\User
      */
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set latitude
+     *
+     * @param float $latitude
+     * @return Image
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return float 
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param float $longitude
+     * @return Image
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return float 
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
     }
 }

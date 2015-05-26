@@ -24,6 +24,8 @@ class ApiShoutoutController extends Controller
         $entity = new ShoutOut;
         $entity->setType('public');
         $entity->setContent($request->get('content'));
+        $entity->setLatitude($request->get('latitude'));
+        $entity->setLongitude($request->get('longitude'));
         $entity->setUser($this->getUser());
 
         $em->persist($entity);
@@ -52,6 +54,8 @@ class ApiShoutoutController extends Controller
             $r->id = $entity->getId();
             $r->user = $entity->getUser()->getId();
             $r->content = $entity->getContent();
+            $r->latitude = $entity->getLatitude();
+            $r->longitude = $entity->getLongitude();
             $r->timestamp = $entity->getCreatedAt()->format('Y-m-d H:i:s');
 
             $res[] = $r;
