@@ -96,6 +96,10 @@ class ApiUserController extends Controller
             $user->setEmail($request->get('email'));
         }
 
+        if (strlen($request->get('gcm_number')) > 0) {
+            $user->setGcmNumber($request->get('gcm_number'));
+        }
+
         $em->flush();
 
         $response = new Response('ok');

@@ -24,4 +24,5 @@ security:
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/\d+/track$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/signup$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/media, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }

@@ -72,6 +72,13 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="gcm_number", type="string", length=255, nullable=true)
+     */
+    private $gcmNumber;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="validated", type="boolean")
@@ -560,5 +567,29 @@ class User implements UserInterface, \Serializable
     public function getMapFollow()
     {
         return $this->mapFollow;
+    }
+
+    /**
+     * Set gcmNumber
+     *
+     * @param string $gcmNumber
+     *
+     * @return User
+     */
+    public function setGcmNumber($gcmNumber)
+    {
+        $this->gcmNumber = $gcmNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get gcmNumber
+     *
+     * @return string
+     */
+    public function getGcmNumber()
+    {
+        return $this->gcmNumber;
     }
 }
