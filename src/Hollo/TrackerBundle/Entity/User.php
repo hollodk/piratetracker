@@ -100,13 +100,6 @@ class User implements UserInterface, \Serializable
     private $mapFollow = false;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="profile_image", type="text", nullable=true)
-     */
-    private $profileImage;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -129,6 +122,11 @@ class User implements UserInterface, \Serializable
      * @ORM\ManyToOne(targetEntity="Fraction", cascade={"persist"})
      */
     private $fraction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Image")
+     */
+    private $image;
 
     /**
      * @ORM\OneToMany(targetEntity="Position", mappedBy="user")
@@ -413,29 +411,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->rank;
     }
-
-    /**
-     * Set profileImage
-     *
-     * @param string $profileImage
-     * @return User
-     */
-    public function setProfileImage($profileImage)
-    {
-        $this->profileImage = $profileImage;
-
-        return $this;
-    }
-
-    /**
-     * Get profileImage
-     *
-     * @return string
-     */
-    public function getProfileImage()
-    {
-        return $this->profileImage;
-    }
     /**
      * Constructor
      */
@@ -591,5 +566,29 @@ class User implements UserInterface, \Serializable
     public function getGcmNumber()
     {
         return $this->gcmNumber;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \Hollo\TrackerBundle\Entity\Image $image
+     *
+     * @return User
+     */
+    public function setImage(\Hollo\TrackerBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Hollo\TrackerBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

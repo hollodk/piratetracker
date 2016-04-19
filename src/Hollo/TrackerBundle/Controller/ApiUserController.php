@@ -34,7 +34,7 @@ class ApiUserController extends Controller
         if ($user->getFraction()) {
             $res->fraction = $user->getFraction()->getId();
         }
-        if ($user->getProfileImage()) {
+        if ($user->getImage()) {
             $res->profile_image_link = $this->generateUrl(
                 'hollo_tracker_media_index', array(
                     'id' => $user->getId(),
@@ -59,23 +59,23 @@ class ApiUserController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($request->files->get('profile_image') != null) {
-            $user->setProfileImage(base64_encode(file_get_contents($request->files->get('profile_image')->getPathName())));
-
             $image = new Image();
             $image->setLatitude($request->get('latitude'));
             $image->setLongitude($request->get('longitude'));
             $image->setUser($this->getUser());
-            $image->setImage($user->getProfileImage());
+            $image->setImage(base64_encode(file_get_contents($request->files->get('profile_image')->getPathName())));
+
+            $user->setImage($image);
 
             $em->persist($image);
         }
 
         if ($request->get('profile_image_base64') != null) {
-            $user->setProfileImage($request->get('profile_image_base64'));
-
             $image = new Image();
             $image->setUser($this->getUser());
-            $image->setImage($user->getProfileImage());
+            $image->setImage($request->get('profile_image_base64'));
+
+            $user->setImage($image);
 
             $em->persist($image);
         }

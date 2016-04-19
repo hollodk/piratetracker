@@ -39,13 +39,14 @@ class ProfileImageController extends Controller
 
         if ($form->isValid()) {
             $data = $form->getData();
-            $entity->setProfileImage(base64_encode(file_get_contents($data['file']->getPathName())));
 
             $em = $this->getDoctrine()->getManager();
 
             $image = new Image();
             $image->setUser($this->getUser());
-            $image->setImage($entity->getProfileImage());
+            $image->setImage(base64_encode(file_get_contents($data['file']->getPathName())));
+
+            $entity->setImage($image);
 
             $em->persist($image);
             $em->flush();

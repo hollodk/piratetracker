@@ -2,7 +2,7 @@
 {% if shout %}
 <h5>{{ shout.content }}</h5>
 {% endif %}
-{% if user.profileImage %}
+{% if user.image %}
 <img src="{{ path('hollo_tracker_media_index', {'id': user.id, 'size': 100}) }}"/>
 {% endif %}
 
