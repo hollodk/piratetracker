@@ -75,7 +75,7 @@ class ApiShoutoutController extends Controller
     public function getAllAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('HolloTrackerBundle:ShoutOut')->getAll();
+        $entities = $em->getRepository('HolloTrackerBundle:ShoutOut')->getActive();
 
         $res = array();
         foreach ($entities as $entity) {
