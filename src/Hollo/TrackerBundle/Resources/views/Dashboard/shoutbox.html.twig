@@ -1,3 +1,6 @@
+{% if shout.image %}
+<img style="text-align: center" src="{{ path('hollo_tracker_media_image', {'id': shout.image.id, 'size': 100}) }}"/>
+{% endif %}
 {% if shout %}
 <h5>{{ shout.content }}</h5>
 {% endif %}

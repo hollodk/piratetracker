@@ -27,7 +27,7 @@ class ShoutOutRepository extends EntityRepository
     public function getRecent($limit=20)
     {
         $date = new \DateTime();
-        $date->modify('-2 hours');
+        $date->modify('-5 days');
 
         return $this->createQueryBuilder('s')
             ->where('s.createdAt > :date')

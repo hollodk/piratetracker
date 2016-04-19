@@ -202,7 +202,12 @@ class DashboardController extends Controller
         }
 
         $base = '/bundles/hollotracker/images/';
-        $icon = 'marker-note.png';
+
+        if ($shout->getImage()) {
+            $icon = 'marker-note-image.png';
+        } else {
+            $icon = 'marker-note.png';
+        }
 
         $marker->setIcon(sprintf('%s/%s/%s',
             $this->baseurl,

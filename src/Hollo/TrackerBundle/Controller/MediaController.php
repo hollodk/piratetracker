@@ -17,6 +17,27 @@ use Hollo\TrackerBundle\Entity\Image;
 class MediaController extends Controller
 {
     /**
+     * @Route("/{id}/{size}/image")
+     */
+    public function imageAction(Request $request, Image $entity, $size)
+    {
+        $im = imagecreatefromstring(base64_decode($entity->getImage()));
+
+        if ($im !== false) {
+            $ng = imagescale($im, $size, $size);
+
+            header('Content-Type: image/png');
+            imagepng($ng);
+
+            imagedestroy($im);
+            imagedestroy($ng);
+            die();
+        }
+
+        return new Response('Error occur');
+    }
+
+    /**
      * @Route("/{id}/{size}")
      */
     public function indexAction(Request $request, User $entity, $size)

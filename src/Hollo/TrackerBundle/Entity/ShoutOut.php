@@ -71,6 +71,11 @@ class ShoutOut
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Image")
+     */
+    private $image;
+
 
     /**
      * Get id
@@ -230,7 +235,7 @@ class ShoutOut
     /**
      * Get latitude
      *
-     * @return float 
+     * @return float
      */
     public function getLatitude()
     {
@@ -253,10 +258,34 @@ class ShoutOut
     /**
      * Get longitude
      *
-     * @return float 
+     * @return float
      */
     public function getLongitude()
     {
         return $this->longitude;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \Hollo\TrackerBundle\Entity\Image $image
+     *
+     * @return ShoutOut
+     */
+    public function setImage(\Hollo\TrackerBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Hollo\TrackerBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

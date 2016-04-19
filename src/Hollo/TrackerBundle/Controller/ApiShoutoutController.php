@@ -28,6 +28,18 @@ class ApiShoutoutController extends Controller
         $entity->setLongitude($request->get('longitude'));
         $entity->setUser($this->getUser());
 
+        if ($request->get('image')) {
+            $image = new Image();
+            $image->setLatitude($request->get('latitude'));
+            $image->setLongitude($request->get('longitude'));
+            $image->setUser($this->getUser());
+            $image->setImage(base64_encode(file_get_contents($request->files->get('image')->getPathName())));
+
+            $entity->setImage($image);
+
+            $em->persist($image);
+        }
+
         $em->persist($entity);
         $em->flush();
 
