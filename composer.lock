@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5ea70cf37f9da79e32d682811c8e7463",
-    "content-hash": "4f270dc345ab609bd9927f867f47e416",
+    "hash": "68d8272ac3982172fde5c3e39e5d9000",
+    "content-hash": "a43678486e764b077e89efc967f76028",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -936,6 +936,123 @@
             "time": "2014-11-08 10:51:34"
         },
         {
+            "name": "endroid/gcm",
+            "version": "1.2.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/endroid/Gcm.git",
+                "reference": "1a5a194a3f463e3f8b9dc41b2648c156cd2fe490"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/endroid/Gcm/zipball/1a5a194a3f463e3f8b9dc41b2648c156cd2fe490",
+                "reference": "1a5a194a3f463e3f8b9dc41b2648c156cd2fe490",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "kriswallsmith/buzz": "~0.3",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Endroid\\Gcm\\": [
+                        "src/",
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeroen van den Enden",
+                    "email": "info@endroid.nl",
+                    "homepage": "http://endroid.nl/"
+                }
+            ],
+            "description": "Endroid Google Cloud Messaging",
+            "homepage": "https://github.com/endroid/Gcm",
+            "keywords": [
+                "cloud",
+                "endroid",
+                "gcm",
+                "google",
+                "messaging",
+                "notification",
+                "notifications",
+                "push"
+            ],
+            "time": "2016-01-17 16:05:40"
+        },
+        {
+            "name": "endroid/gcm-bundle",
+            "version": "1.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/endroid/EndroidGcmBundle.git",
+                "reference": "acb8e7d6573b5502e06860154dd756d6dd16295f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/endroid/EndroidGcmBundle/zipball/acb8e7d6573b5502e06860154dd756d6dd16295f",
+                "reference": "acb8e7d6573b5502e06860154dd756d6dd16295f",
+                "shasum": ""
+            },
+            "require": {
+                "endroid/gcm": "^1.0",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Endroid\\Bundle\\GcmBundle\\": [
+                        "src/",
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeroen van den Enden",
+                    "email": "info@endroid.nl",
+                    "homepage": "http://endroid.nl/"
+                }
+            ],
+            "description": "Endroid Google Cloud Messaging Bundle for Symfony",
+            "homepage": "https://github.com/endroid/EndroidGcmBundle",
+            "keywords": [
+                "bundle",
+                "cloud",
+                "endroid",
+                "gcm",
+                "google",
+                "messaging",
+                "notification",
+                "notifications",
+                "push",
+                "symfony"
+            ],
+            "time": "2016-02-22 08:13:12"
+        },
+        {
             "name": "incenteev/composer-parameter-handler",
             "version": "v2.1.2",
             "source": {
@@ -1154,6 +1271,54 @@
                 "minification"
             ],
             "time": "2015-11-12 13:51:40"
+        },
+        {
+            "name": "kriswallsmith/buzz",
+            "version": "v0.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kriswallsmith/Buzz.git",
+                "reference": "d4041666c3ffb379af02a92dabe81c904b35fab8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/d4041666c3ffb379af02a92dabe81c904b35fab8",
+                "reference": "d4041666c3ffb379af02a92dabe81c904b35fab8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "ext-curl": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Buzz": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kris Wallsmith",
+                    "email": "kris.wallsmith@gmail.com",
+                    "homepage": "http://kriswallsmith.net/"
+                }
+            ],
+            "description": "Lightweight HTTP client",
+            "homepage": "https://github.com/kriswallsmith/Buzz",
+            "keywords": [
+                "curl",
+                "http client"
+            ],
+            "time": "2015-06-25 17:26:56"
         },
         {
             "name": "monolog/monolog",

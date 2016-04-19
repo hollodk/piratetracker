@@ -16,6 +16,7 @@ use Ivory\GoogleMap\Overlays\Polyline;
 use Hollo\TrackerBundle\Entity\Fraction;
 use Hollo\TrackerBundle\Entity\Position;
 use Hollo\TrackerBundle\Entity\User;
+use Hollo\TrackerBundle\Entity\ShoutOut;
 use Hollo\TrackerBundle\Form\FractionType;
 
 /**
@@ -45,18 +46,25 @@ class DashboardController extends Controller
 
         $map = $this->getMap($center, $zoom);
 
-        $entities = $em->getRepository('HolloTrackerBundle:User')->findAll();
+        $fractions = $em->getRepository('HolloTrackerBundle:Fraction')->findAll();
         $shouts = $em->getRepository('HolloTrackerBundle:ShoutOut')->findBy(
             array(),
             array('id' => 'DESC'),
             30
         );
-        $fractions = $em->getRepository('HolloTrackerBundle:Fraction')->findAll();
+
+        $entities = $em->getRepository('HolloTrackerBundle:User')->findAll();
 
         foreach ($entities as $entity) {
             if ($entity->getPosition()) {
-                $this->addMarker($entity, $map);
+                $this->addUserMarker($entity, $map);
             }
+        }
+
+        $entities = $em->getRepository('HolloTrackerBundle:ShoutOut')->getRecent();
+
+        foreach ($entities as $entity) {
+            $this->addShoutMarker($entity, $map);
         }
 
         return array(
@@ -106,7 +114,7 @@ class DashboardController extends Controller
         }
 
         if ($entity->getPosition()) {
-            $this->addMarker($entity, $map);
+            $this->addUserMarker($entity, $map);
         }
 
         return array(
@@ -145,12 +153,34 @@ class DashboardController extends Controller
         return $map;
     }
 
-    private function addMarker(User $entity, $map)
+    private function addShoutMarker(ShoutOut $shout, $map)
+    {
+        $position = new Position();
+        $position->setLongitude($shout->getLongitude());
+        $position->setLatitude($shout->getLatitude());
+
+        $marker = $this->buildShoutMarker($position, $shout);
+        $map->addMarker($marker);
+    }
+
+    private function addUserMarker(User $entity, $map)
     {
         $position = $entity->getPosition();
+        $fraction = $entity->getFraction();
 
         $em = $this->getDoctrine()->getManager();
         $shout = $em->getRepository('HolloTrackerBundle:ShoutOut')->getLatest($entity);
+
+        $marker = $this->buildMarker($position, $fraction, $entity, $shout);
+        $map->addMarker($marker);
+    }
+
+    private function buildShoutMarker(Position $position, ShoutOut $shout=null)
+    {
+        $marker = new Marker();
+        $marker->setPrefixJavascriptVariable('marker_');
+        $marker->setPosition($position->getLatitude(), $position->getLongitude(), true);
+
         $bounce = false;
 
         if ($shout) {
@@ -165,10 +195,6 @@ class DashboardController extends Controller
             }
         }
 
-        $marker = new Marker();
-        $marker->setPrefixJavascriptVariable('marker_');
-        $marker->setPosition($position->getLatitude(), $position->getLongitude(), true);
-
         if ($bounce) {
             $marker->setAnimation(Animation::BOUNCE);
         } else {
@@ -176,12 +202,64 @@ class DashboardController extends Controller
         }
 
         $base = '/bundles/hollotracker/images/';
+        $icon = 'marker-note.png';
+
+        $marker->setIcon(sprintf('%s/%s/%s',
+            $this->baseurl,
+            $base,
+            $icon
+        ));
+
+        $infoWindow = new InfoWindow();
+
+        $infoWindow->setPrefixJavascriptVariable('info_window_');
+        $infoWindow->setContent($this->renderView('HolloTrackerBundle:Dashboard:shoutbox.html.twig', array(
+            'user' => $shout->getUser(),
+            'shout' => $shout
+        )));
+        $infoWindow->setAutoClose(true);
+
+        $marker->setInfoWindow($infoWindow);
+
+        return $marker;
+    }
+
+    private function buildMarker(Position $position, Fraction $fraction=null, User $user, ShoutOut $shout=null)
+    {
+        $marker = new Marker();
+        $marker->setPrefixJavascriptVariable('marker_');
+        $marker->setPosition($position->getLatitude(), $position->getLongitude(), true);
+
+        $bounce = false;
+
+        /*
+        if ($shout) {
+            $diff = $shout->getCreatedAt()->diff(new \DateTime());
+
+            $minutes = $diff->days * 24 * 60;
+            $minutes += $diff->h * 60;
+            $minutes += $diff->i;
+
+            if ($minutes < 20) {
+                $bounce = true;
+            }
+        }
+
+        if ($bounce) {
+            $marker->setAnimation(Animation::BOUNCE);
+        } else {
+            $marker->setAnimation(Animation::DROP);
+        }
+         */
+        $marker->setAnimation(Animation::DROP);
+
+        $base = '/bundles/hollotracker/images/';
         $icon = 'marker-grey-small.png';
 
-        if (strlen($entity->getIcon()) > 0) {
-            $icon = $entity->getIcon();
-        } elseif ($entity->getFraction() && strlen($entity->getFraction()->getIcon()) > 0) {
-            $icon = $entity->getFraction()->getIcon();
+        if (strlen($user->getIcon()) > 0) {
+            $icon = $user->getIcon();
+        } elseif ($fraction && strlen($fraction->getIcon()) > 0) {
+            $icon = $fraction->getIcon();
         }
         $marker->setIcon(sprintf('%s/%s/%s',
             $this->baseurl,
@@ -193,14 +271,14 @@ class DashboardController extends Controller
 
         $infoWindow->setPrefixJavascriptVariable('info_window_');
         $infoWindow->setContent($this->renderView('HolloTrackerBundle:Dashboard:infobox.html.twig', array(
-            'user' => $entity,
+            'user' => $user,
             'shout' => $shout
         )));
         $infoWindow->setAutoClose(true);
 
         $marker->setInfoWindow($infoWindow);
 
-        $map->addMarker($marker);
+        return $marker;
     }
 
     private function addPirateImage($map)

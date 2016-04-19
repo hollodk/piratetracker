@@ -53,6 +53,9 @@ class ShoutOutController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $gcm = $this->get('hollo_tracker.gcm');
+            $gcm->sendMessage('PiratTitle', $entity->getContent());
+
             return $this->redirect($this->generateUrl('admin_shoutout_show', array('id' => $entity->getId())));
         }
 

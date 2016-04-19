@@ -1,3 +1,6 @@
 services:
     hollo_tracker.coordinate:
         class: Hollo\TrackerBundle\Helper\CoordinateHelper
+    hollo_tracker.gcm:
+        class: Hollo\TrackerBundle\Helper\GcmHelper
+        arguments: [ "@service_container" ]

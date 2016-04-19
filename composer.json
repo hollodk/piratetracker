@@ -18,7 +18,8 @@
         "sensio/framework-extra-bundle": "~3.0",
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
-        "egeloen/google-map-bundle": "^2.2"
+        "egeloen/google-map-bundle": "^2.2",
+        "endroid/gcm-bundle": "^1.2"
     },
     "scripts": {
         "post-install-cmd": [

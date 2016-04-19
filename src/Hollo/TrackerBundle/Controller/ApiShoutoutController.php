@@ -31,7 +31,19 @@ class ApiShoutoutController extends Controller
         $em->persist($entity);
         $em->flush();
 
-        $response = new Response('ok');
+        $gcm = $this->get('hollo_tracker.gcm');
+
+        $data = new \StdClass();
+        $data->type = 1;
+        $data->pirate = $this->getUser()->getUsername();
+        $data->message = $request->get('content');
+
+        if ($gcm->sendMessage($data)) {
+            $response = new Response('ok');
+        } else {
+            $response = new Response('error occur sending gcm message');
+        }
+
         return $response;
     }
 

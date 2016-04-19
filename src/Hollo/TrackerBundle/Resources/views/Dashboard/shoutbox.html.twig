@@ -1,0 +1,4 @@
+{% if shout %}
+<h5>{{ shout.content }}</h5>
+{% endif %}
+<small>shouted at {{ shout.createdAt|date('d M, H:i') }}, by {{ user.username }}</small>

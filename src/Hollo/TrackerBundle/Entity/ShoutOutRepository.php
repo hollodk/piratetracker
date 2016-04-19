@@ -23,4 +23,18 @@ class ShoutOutRepository extends EntityRepository
             ->getOneOrNullResult()
             ;
     }
+
+    public function getRecent($limit=20)
+    {
+        $date = new \DateTime();
+        $date->modify('-2 hours');
+
+        return $this->createQueryBuilder('s')
+            ->where('s.createdAt > :date')
+            ->setParameter('date', $date)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

@@ -1,7 +1,10 @@
 {% extends "::base.html.twig" %}
 
-{% block body %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/hollotracker/js/fontawesome-markers.min.js') }}"></script>
+{% endblock %}
 
+{% block body %}
 <div class="row">
     <div class="col-md-9">
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') == false %}

@@ -71,3 +71,7 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+endroid_gcm:
+    #api_key: "AIzaSyCuEhMpAcSpsduYozo-fTK-UzUfwgxftB8"
+    api_key: "AIzaSyBt6EqQ5pdhzMDyiW3RPtgiilop1f2-z_o"
