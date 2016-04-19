@@ -28,6 +28,14 @@ class ApiShoutoutController extends Controller
         $entity->setLongitude($request->get('longitude'));
         $entity->setUser($this->getUser());
 
+        $expire = new \DateTime();
+        if ($request->get('expire')) {
+            $expire->modify('+'.$request->get('expire'));
+        } else {
+            $expire->modify('+5 days');
+        }
+        $entity->setExpireAt($expire);
+
         if ($request->get('image')) {
             $image = new Image();
             $image->setLatitude($request->get('latitude'));
@@ -67,10 +75,7 @@ class ApiShoutoutController extends Controller
     public function getAllAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('HolloTrackerBundle:ShoutOut')->findBy(
-            array(),
-            array('id' => 'DESC')
-        );
+        $entities = $em->getRepository('HolloTrackerBundle:ShoutOut')->getAll();
 
         $res = array();
         foreach ($entities as $entity) {
@@ -81,6 +86,7 @@ class ApiShoutoutController extends Controller
             $r->latitude = $entity->getLatitude();
             $r->longitude = $entity->getLongitude();
             $r->timestamp = $entity->getCreatedAt()->format('Y-m-d H:i:s');
+            $r->expire = $entity->getExpireAt()->format('Y-m-d H:i:s');
 
             $res[] = $r;
         }

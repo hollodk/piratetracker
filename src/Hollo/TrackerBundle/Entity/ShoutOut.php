@@ -54,6 +54,13 @@ class ShoutOut
     /**
      * @var \DateTime
      *
+     * @ORM\Column(name="expire_at", type="datetime")
+     */
+    private $expireAt;
+
+    /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
@@ -287,5 +294,29 @@ class ShoutOut
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set expireAt
+     *
+     * @param \DateTime $expireAt
+     *
+     * @return ShoutOut
+     */
+    public function setExpireAt($expireAt)
+    {
+        $this->expireAt = $expireAt;
+
+        return $this;
+    }
+
+    /**
+     * Get expireAt
+     *
+     * @return \DateTime
+     */
+    public function getExpireAt()
+    {
+        return $this->expireAt;
     }
 }

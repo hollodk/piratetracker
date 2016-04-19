@@ -16,9 +16,11 @@ class ShoutOutRepository extends EntityRepository
     {
         return $this->createQueryBuilder('s')
             ->where('s.user = :user')
+            ->andWhere('s.expireAt > :now')
             ->orderBy('s.id', 'DESC')
             ->setMaxResults(1)
             ->setParameter('user', $entity)
+            ->setParameter('now', new \DateTime())
             ->getQuery()
             ->getOneOrNullResult()
             ;
@@ -31,10 +33,36 @@ class ShoutOutRepository extends EntityRepository
 
         return $this->createQueryBuilder('s')
             ->where('s.createdAt > :date')
+            ->andWhere('s.expireAt > :now')
             ->setParameter('date', $date)
+            ->setParameter('now', new \DateTime())
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult()
             ;
     }
+
+    public function getAll()
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.expireAt > :now')
+            ->orderBy('s.id', 'DESC')
+            ->setParameter('now', new \DateTime())
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function getActive($limit=50)
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.expireAt > :now')
+            ->orderBy('s.id', 'DESC')
+            ->setParameter('now', new \DateTime())
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 }
