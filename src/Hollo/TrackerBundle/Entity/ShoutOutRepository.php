@@ -37,6 +37,7 @@ class ShoutOutRepository extends EntityRepository
             ->setParameter('date', $date)
             ->setParameter('now', new \DateTime())
             ->setMaxResults($limit)
+            ->orderBy('s.id', 'DESC')
             ->getQuery()
             ->getResult()
             ;

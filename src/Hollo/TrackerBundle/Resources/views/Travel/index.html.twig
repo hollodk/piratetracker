@@ -6,82 +6,18 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="{{ asset('bundles/hollotracker/css/travel.css') }}">
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=geometry"></script>
-	<script>
-		function initialize() {
-			var map = new google.maps.Map(document.getElementById("map"), {
-			  center: {lat: 57.0445, lng: 9.93},
-			  zoom: 15,
-			  mapTypeId: google.maps.MapTypeId.ROADMAP
-			});
+    <script>
+        var counter = eval('{{ counter|raw }}');
+        var users = eval('{{ users|raw }}');
 
-			autoRefresh(map);
-		}
+        var captainIcon = "{{ asset('bundles/hollotracker/images/marker-captain.png') }}";
+        var captainInactiveIcon = "{{ asset('bundles/hollotracker/images/marker-captain-inactive.png') }}";
+        var pirateIcon = "{{ asset('bundles/hollotracker/images/marker-pirate.png') }}";
+        var pirateInactiveIcon = "{{ asset('bundles/hollotracker/images/marker-pirate-inactive.png') }}";
+        var shipIcon = "{{ asset('bundles/hollotracker/images/cat-pirate-icon.png') }}";
 
-		function moveMarker(map, marker, latlng) {
-			marker.setPosition(latlng);
-			//map.panTo(latlng);
-		}
-
-		function autoRefresh(map) {
-			var i;
-
-                        {% for user in users %}
-                        var route{{ user.user }}, marker{{ user.user }};
-
-                        route{{ user.user }} = new google.maps.Polyline({
-				path: [],
-				geodesic : true,
-				strokeColor: '#'+Math.floor(Math.random()*16777215).toString(16),
-				strokeOpacity: 0.2,
-				strokeWeight: 2,
-				editable: false,
-				map:map
-			});
-
-                        marker{{ user.user }}=new google.maps.Marker({map:map,icon:"{{ asset('bundles/hollotracker/images/marker-pirate.png') }}"});
-
-                        for (i = 0; i < pathCoords{{ user.user }}.length; i++) {
-				setTimeout(function (coords)
-				{
-					var latlng = new google.maps.LatLng(coords.lat, coords.lng);
-                                        route{{ user.user }}.getPath().push(latlng);
-                                        moveMarker(map, marker{{ user.user }}, latlng);
-                                }, 100 * i, pathCoords{{ user.user }}[i]);
-			}
-                        {% endfor %}
-
-                        for (i = 0; i < counter.length; i++) {
-				setTimeout(function (i)
-				{
-                                    var dom = document.getElementById("time").innerHTML = i.time;
-                                }, 100 * i, counter[i]);
-			}
-		}
-
-                {% for user in users %}
-                var pathCoords{{ user.user }} = [
-                    {% for pos in user.positions %}
-		    {
-                        "lat": {{ pos.latitude }},
-                        "lng": {{ pos.longitude }}
-                    }
-                    {% if loop.last == false %},{% endif %}
-                    {% endfor %}
-		];
-                {% endfor %}
-
-                var counter = [
-                    {% for c in counter %}
-		    {
-                        "time": "{{ c }}"
-                    }
-                    {% if loop.last == false %},{% endif %}
-                    {% endfor %}
-		];
-
-		google.maps.event.addDomListener(window, 'load', initialize);
-
-        </script>
+    </script>
+    <script src="{{ asset('bundles/hollotracker/js/travel.js') }}"></script>
 </head>
 <body>
     <div id="outer" style="width:100%">

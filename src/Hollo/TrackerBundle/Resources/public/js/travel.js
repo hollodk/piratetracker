@@ -6,40 +6,6 @@ function initialize() {
     });
 
     autoRefresh(map);
-}
-
-function moveMarker(map, marker, latlng) {
-    marker.setPosition(latlng);
-    //map.panTo(latlng);
-}
-
-function autoRefresh(map) {
-    var i;
-
-    {% for user in users %}
-    var route{{ user.user.id }}, marker{{ user.user.id }};
-
-    route{{ user.user.id }} = new google.maps.Polyline({
-        path: [],
-        geodesic : true,
-        strokeColor: '#'+Math.floor(Math.random()*16777215).toString(16),
-        strokeOpacity: 0.2,
-        strokeWeight: 2,
-        editable: false,
-        map:map
-    });
-
-    marker{{ user.user.id }}=new google.maps.Marker({map:map,icon:"{{ asset('bundles/hollotracker/images/marker-pirate.png') }}"});
-
-    for (i = 0; i < pathCoords{{ user.user.id }}.length; i++) {
-        setTimeout(function (coords)
-                {
-                    var latlng = new google.maps.LatLng(coords.lat, coords.lng);
-                    route{{ user.user.id }}.getPath().push(latlng);
-                    moveMarker(map, marker{{ user.user.id }}, latlng);
-                }, 100 * i, pathCoords{{ user.user.id }}[i]);
-    }
-    {% endfor %}
 
     for (i = 0; i < counter.length; i++) {
         setTimeout(function (i)
@@ -49,25 +15,62 @@ function autoRefresh(map) {
     }
 }
 
-{% for user in users %}
-var pathCoords{{ user.user.id }} = [
-{% for pos in user.positions %}
-{
-    "lat": {{ pos.latitude }},
-    "lng": {{ pos.longitude }}
+function moveMarker(map, marker, latlng) {
+    marker.setPosition(latlng);
+    //map.panTo(latlng);
 }
-{% if loop.last == false %},{% endif %}
-{% endfor %}
-];
-{% endfor %}
 
-var counter = [
-{% for c in counter %}
-{
-    "time": "{{ c }}"
+function autoRefresh(map) {
+    var i, j, routes = [], markers = [];
+
+    for (i = 0; i < users.length; i++) {
+        routes[i] = new google.maps.Polyline({
+            path: [],
+            geodesic : true,
+            strokeColor: '#'+Math.floor(Math.random()*16777215).toString(16),
+            strokeOpacity: 0.2,
+            strokeWeight: 2,
+            editable: false,
+            map:map
+        });
+
+        if (users[i].rank == 'captain') {
+            markers[i] = new google.maps.Marker({map:map,icon:captainIcon});
+        } else if (users[i].rank == 'ship') {
+            markers[i] = new google.maps.Marker({map:map,icon:shipIcon});
+        } else {
+            markers[i] = new google.maps.Marker({map:map,icon:pirateIcon});
+        }
+
+        for (j = 0; j < users[i].positions.length; j++) {
+            setTimeout(function (coords, i)
+            {
+                var latlng = new google.maps.LatLng(coords.latitude, coords.longitude);
+                routes[i].getPath().push(latlng);
+
+                if (coords.active == false) {
+                    if (users[i].rank == 'captain') {
+                        markers[i].setIcon(captainInactiveIcon);
+                    } else if (users[i].rank == 'ship') {
+                        markers[i].setIcon(shipIcon);
+                    } else {
+                        markers[i].setIcon(pirateInactiveIcon);
+                    }
+
+                } else {
+                    if (users[i].rank == 'captain') {
+                        markers[i].setIcon(captainIcon);
+                    } else if (users[i].rank == 'ship') {
+                        markers[i].setIcon(shipIcon);
+                    } else {
+                        markers[i].setIcon(pirateIcon);
+                    }
+                }
+
+                moveMarker(map, markers[i], latlng);
+            }, 100 * j, users[i].positions[j], i);
+        }
+    }
 }
-{% if loop.last == false %},{% endif %}
-{% endfor %}
-];
 
 google.maps.event.addDomListener(window, 'load', initialize);

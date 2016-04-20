@@ -30,7 +30,7 @@ class TravelController extends Controller
         $end = new \DateTime('2015-05-24 05:00:00');
 
         while ($start <= $end) {
-            $counter[] = $start->format('m/d H:i');
+            $counter[] = array('time' => $start->format('m/d H:i'));
 
             $start->add($interval);
         }
@@ -44,6 +44,21 @@ class TravelController extends Controller
 
             $p = new \StdClass();
             $p->user = $user->getId();
+
+            switch (true) {
+            case ($user->getId() === 1 || $user->getId() === 3 || $user->getId() === 5):
+                $p->rank = 'captain';
+                break;
+
+            case ($user->getId() == 4):
+                $p->rank = 'ship';
+                break;
+
+            default:
+                $p->rank = 'pirate';
+                break;
+            }
+
             $p->positions = array();
 
             $positions = $em->getRepository('HolloTrackerBundle:Position')->getRange($user, $start, $end);
@@ -63,7 +78,7 @@ class TravelController extends Controller
                     continue;
 
                 case ($position->getCreatedAt() <= $start):
-                    $p->positions[] = $this->buildStep($position, $start);
+                    $p->positions[] = $this->buildStep($position, $user, $start);
 
                     /*
                     var_dump($user->getId(), $start->format('m/d H:i:s'), $position->getCreatedAt()->format('m/d H:i:s'));
@@ -76,19 +91,16 @@ class TravelController extends Controller
                 case ($position->getCreatedAt() > $start):
                     while ($position->getCreatedAt() > $start) {
 
-                        $d = clone $start;
-
                         if (!isset($i)) {
                             $i = new \StdClass();
                             $i->latitude = 57.0445;
                             $i->longitude = 9.93;
-                            $i->date = $d->format('m/d H:i');;
-                            $i->active = false;
-                        } else {
-                            $i = $this->buildStep($position, $start);
+                            $i->date = $start->format('m/d H:i');;
                             $i->active = false;
 
-                            //$i->date = $d->format('m/d H:i');
+                        } else {
+                            $i = clone $i;
+                            $i = $this->buildStep($position, $user, $start);
                         }
 
                         /*
@@ -104,7 +116,7 @@ class TravelController extends Controller
                     var_dump($user->getId(), $start->format('m/d H:i:s'), $position->getCreatedAt()->format('m/d H:i:s'));
                     var_dump('added, future');
                      */
-                    $p->positions[] = $this->buildStep($position, $start);
+                    $p->positions[] = $this->buildStep($position, $user, $start);
 
                     $start->add($interval);
 
@@ -115,21 +127,20 @@ class TravelController extends Controller
                 //var_dump('next');
             }
 
-            if ($start !== $end) {
-                while ($end >= $start) {
-                    /*
-                    var_dump($user->getId(), $start->format('m/d H:i:s'));
-                    var_dump('added, step');
-                     */
+            while ($start <= $end) {
+                /*
+                var_dump($user->getId(), $start->format('m/d H:i:s'));
+                var_dump('added, step');
+                */
 
-                    $d = clone $start;
-                    $i->date = $d->format('m/d H:i');;
-                    $i->active = false;
+                $i = clone $i;
+                $i->date = $start->format('m/d H:i');
+                $i->active = false;
+                $i->done = true;
 
-                    $p->positions[] = $i;
+                $p->positions[] = $i;
 
-                    $start->add($interval);
-                }
+                $start->add($interval);
             }
 
             $res[] = $p;
@@ -137,29 +148,26 @@ class TravelController extends Controller
 
         /*
         foreach ($res as $r) {
-            var_dump(count($r->positions));
-            continue;
+            var_dump($r->user, $r->rank);
             foreach ($r->positions as $i) {
-                var_dump($i->date, $i->user);
+                //var_dump($i->date, $r->user, $i->active);
             }
         }
         die('meh');
          */
 
         return array(
-            'users' => $res,
-            'counter' => $counter
+            'users' => json_encode($res),
+            'counter' => json_encode($counter)
         );
     }
 
-    private function buildStep(Position $position, \DateTime $date)
+    private function buildStep(Position $position, User $user, \DateTime $date)
     {
-        $d = clone $date;
-
         $i = new \StdClass();
         $i->longitude = $position->getLongitude();
         $i->latitude = $position->getLatitude();
-        $i->date = $d->format('m/d H:i');
+        $i->date = $date->format('m/d H:i');
         $i->active = true;
 
         return $i;
