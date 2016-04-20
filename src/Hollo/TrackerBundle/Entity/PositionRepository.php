@@ -27,4 +27,18 @@ class PositionRepository extends EntityRepository
             ->getResult()
             ;
     }
+
+    public function getRange(User $user, \DateTime $start, \DateTime $end)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.user = :user')
+            ->andWhere('p.createdAt > :start')
+            ->andWhere('p.createdAt < :end')
+            ->setParameter('user', $user)
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
