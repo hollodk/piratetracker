@@ -1,34 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Animated route</title>
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-	<meta charset="utf-8">
-	<style>
-		html, body, #map {
-                    height: 100%;
-                    margin: 0px;
-                    padding: 0px
-		}
-                #myTextDiv {
-                    border: 2px solid #73AD21;
-                    border-radius: 25px;
-                    z-index: 999;
-                    background-color: GREEN;
-                    opacity: 0.8;
-                    padding: 20px;
-                    text-align: center;
-                    color: #fff;
-                    position: absolute;
-                    top: 5%;
-                    right: 5%;
-                    font-family: Verdana;
-                }
-                #myTextDiv span {
-                    font-size: 20px;
-                }
-	</style>
-	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=geometry"></script>
+    <title>Animated route</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ asset('bundles/hollotracker/css/travel.css') }}">
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=geometry"></script>
 	<script>
 		function initialize() {
 			var map = new google.maps.Map(document.getElementById("map"), {
@@ -49,9 +26,9 @@
 			var i;
 
                         {% for user in users %}
-                        var route{{ user.user.id }}, marker{{ user.user.id }};
+                        var route{{ user.user }}, marker{{ user.user }};
 
-                        route{{ user.user.id }} = new google.maps.Polyline({
+                        route{{ user.user }} = new google.maps.Polyline({
 				path: [],
 				geodesic : true,
 				strokeColor: '#'+Math.floor(Math.random()*16777215).toString(16),
@@ -61,15 +38,15 @@
 				map:map
 			});
 
-                        marker{{ user.user.id }}=new google.maps.Marker({map:map,icon:"{{ asset('bundles/hollotracker/images/marker-pirate.png') }}"});
+                        marker{{ user.user }}=new google.maps.Marker({map:map,icon:"{{ asset('bundles/hollotracker/images/marker-pirate.png') }}"});
 
-                        for (i = 0; i < pathCoords{{ user.user.id }}.length; i++) {
+                        for (i = 0; i < pathCoords{{ user.user }}.length; i++) {
 				setTimeout(function (coords)
 				{
 					var latlng = new google.maps.LatLng(coords.lat, coords.lng);
-                                        route{{ user.user.id }}.getPath().push(latlng);
-                                        moveMarker(map, marker{{ user.user.id }}, latlng);
-                                }, 100 * i, pathCoords{{ user.user.id }}[i]);
+                                        route{{ user.user }}.getPath().push(latlng);
+                                        moveMarker(map, marker{{ user.user }}, latlng);
+                                }, 100 * i, pathCoords{{ user.user }}[i]);
 			}
                         {% endfor %}
 
@@ -82,7 +59,7 @@
 		}
 
                 {% for user in users %}
-                var pathCoords{{ user.user.id }} = [
+                var pathCoords{{ user.user }} = [
                     {% for pos in user.positions %}
 		    {
                         "lat": {{ pos.latitude }},
@@ -104,7 +81,7 @@
 
 		google.maps.event.addDomListener(window, 'load', initialize);
 
-	</script>
+        </script>
 </head>
 <body>
     <div id="outer" style="width:100%">

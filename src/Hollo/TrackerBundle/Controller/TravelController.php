@@ -26,7 +26,7 @@ class TravelController extends Controller
         $interval = new \DateInterval('PT1M');
         $res = array();
         $counter = array();
-        $start = new \DateTime('2015-05-23 07:00:00');
+        $start = new \DateTime('2015-05-23 06:00:00');
         $end = new \DateTime('2015-05-24 05:00:00');
 
         while ($start <= $end) {
@@ -38,12 +38,12 @@ class TravelController extends Controller
         $users = $em->getRepository('HolloTrackerBundle:User')->findAll();
 
         foreach ($users as $user) {
-            $start = new \DateTime('2015-05-23 07:00:00');
+            $start = new \DateTime('2015-05-23 06:00:00');
             $end = new \DateTime('2015-05-24 05:00:00');
             $prevTicker = clone $start;
 
             $p = new \StdClass();
-            $p->user = $user;
+            $p->user = $user->getId();
             $p->positions = array();
 
             $positions = $em->getRepository('HolloTrackerBundle:Position')->getRange($user, $start, $end);
@@ -83,9 +83,11 @@ class TravelController extends Controller
                             $i->latitude = 57.0445;
                             $i->longitude = 9.93;
                             $i->date = $d->format('m/d H:i');;
-                            $i->user = $position->getUser()->getId();
+                            $i->active = false;
                         } else {
                             $i = $this->buildStep($position, $start);
+                            $i->active = false;
+
                             //$i->date = $d->format('m/d H:i');
                         }
 
@@ -122,6 +124,7 @@ class TravelController extends Controller
 
                     $d = clone $start;
                     $i->date = $d->format('m/d H:i');;
+                    $i->active = false;
 
                     $p->positions[] = $i;
 
@@ -157,7 +160,7 @@ class TravelController extends Controller
         $i->longitude = $position->getLongitude();
         $i->latitude = $position->getLatitude();
         $i->date = $d->format('m/d H:i');
-        $i->user = $position->getUser()->getId();
+        $i->active = true;
 
         return $i;
     }

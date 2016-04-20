@@ -1,0 +1,26 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Password reset
+    </div>
+    <div class="panel-body">
+        <p>If you have forgot your password, enter your username or email here, and we will ship you a reset link.</p>
+
+        {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.username) }}
+            {{ form_widget(form.username, {'attr':{'class':'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, {'attr':{'class':'form-control'}}) }}
+        </div>
+        {{ form_widget(form.submit, {'attr': {'class':'btn btn-primary'}}) }}
+
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
