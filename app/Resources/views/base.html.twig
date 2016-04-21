@@ -35,6 +35,7 @@
                     <ul class="nav navbar-nav">
                         {% if is_granted('ROLE_USER') %}
                         <li><a href="{{ path('user_profile_image') }}">Image Upload</a></li>
+                        <li><a href="{{ path('user_password') }}">Change password</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}
                         <li><a href="{{ path('admin_user') }}">User</a></li>
@@ -52,11 +53,24 @@
         </nav><!-- /.navbar -->
 
         <div class="container">
+            {% for flash_message in app.session.flashBag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flash_message }}
+            </div>
+            {% endfor %}
+            {% for flash_message in app.session.flashBag.get('error') %}
+            <div class="alert alert-danger">
+                {{ flash_message }}
+            </div>
+            {% endfor %}
+
             {% block body %}{% endblock %}
         </div>
-        {% block javascripts %}{% endblock %}
 
         <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+        {% block javascripts %}{% endblock %}
+
     </body>
 </html>

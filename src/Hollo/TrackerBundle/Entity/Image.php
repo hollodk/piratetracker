@@ -32,14 +32,14 @@ class Image
     /**
      * @var float
      *
-     * @ORM\Column(name="latitude", type="float", scale=6)
+     * @ORM\Column(name="latitude", type="float", scale=6, nullable=true)
      */
     private $latitude;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="longitude", type="float", scale=6)
+     * @ORM\Column(name="longitude", type="float", scale=6, nullable=true)
      */
     private $longitude;
 

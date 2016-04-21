@@ -26,4 +26,5 @@ security:
         - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/media, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/travel, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/ajax, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }

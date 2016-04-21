@@ -1,0 +1,19 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Password renewal
+    </div>
+    <div class="panel-body">
+        <p>Your new password has just been generated.</p>
+
+        <div class="alert alert-success">
+            Username: {{ user.username }}<br>
+            Password: {{ password }}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

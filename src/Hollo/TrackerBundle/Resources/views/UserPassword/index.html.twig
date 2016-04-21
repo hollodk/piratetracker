@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+<h1>Change Password</h1>
+
+{{ form_start(form) }}
+<div class="form-group">
+    {{ form_label(form.password) }}
+    {{ form_widget(form.password, {'attr':{'class':'form-control'}}) }}
+</div>
+{{ form_widget(form.submit, {'attr':{'class':'btn btn-primary'}}) }}
+{{ form_end(form) }}
+{% endblock %}
