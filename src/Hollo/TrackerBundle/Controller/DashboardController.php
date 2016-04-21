@@ -52,6 +52,30 @@ class DashboardController extends Controller
     }
 
     /**
+     * @Route("/fullscreen")
+     * @Template()
+     */
+    public function fullscreenAction(Request $request)
+    {
+        $this->baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
+        $em = $this->getDoctrine()->getManager();
+
+        $center = null;
+        $r = $em->getRepository('HolloTrackerBundle:User')->findOneByMapFollow(true);
+        if ($r && $r->getPosition()) {
+            $center = array(
+                'lat' => $r->getPosition()->getLatitude(),
+                'lon' => $r->getPosition()->getLongitude()
+            );
+        }
+
+        return array(
+            'center' => $center,
+            'zoom' => 15,
+        );
+    }
+
+    /**
      * @Route("/{id}/track")
      * @Template("HolloTrackerBundle:Dashboard:index.html.twig")
      */

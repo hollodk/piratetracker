@@ -19,6 +19,8 @@ var data;
 data = {user:{{ currentUser.id }}};
 {% endif %}
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=geometry"></script>
+<script type="text/javascript" src="{{ asset('bundles/hollotracker/js/api.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/hollotracker/js/map.js') }}"></script>
 {% endblock %}
 
@@ -47,13 +49,17 @@ data = {user:{{ currentUser.id }}};
 
         {% endif %}
 
+        <p>
+        [<a href="{{ path('hollo_tracker_travel_index') }}">Review Pirattogt 2015</a>]
+        [<a href="{{ path('hollo_tracker_dashboard_fullscreen') }}">See this live map in fullscreen</a>]
+        </p>
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 Map of suspects
             </div>
             <div class="panel-body">
                 <div id="map_canvas" style="width:100%;height:600px;"></div>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=geometry"></script>
 
             </div>
         </div>

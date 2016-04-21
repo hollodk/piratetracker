@@ -5,6 +5,16 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <link rel="stylesheet" href="{{ asset('bundles/hollotracker/css/travel.css') }}">
+</head>
+<body>
+    <div id="outer" style="width:100%">
+        <div id="myTextDiv">
+            <span id="time">00:00</span>
+        </div>
+    </div>
+    <div id="map"></div>
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=geometry"></script>
     <script>
         var counter = eval('{{ counter|raw }}');
@@ -16,15 +26,13 @@
         var pirateInactiveIcon = "{{ asset('bundles/hollotracker/images/marker-pirate-inactive.png') }}";
         var shipIcon = "{{ asset('bundles/hollotracker/images/cat-pirate-icon.png') }}";
 
+        var data;
+        var imagesUrl = "{{ path('hollo_tracker_ajax_images') }}";
+        var routesUrl = "{{ path('hollo_tracker_ajax_routes') }}";
+
     </script>
+    <script src="{{ asset('bundles/hollotracker/js/api.js') }}"></script>
     <script src="{{ asset('bundles/hollotracker/js/travel.js') }}"></script>
-</head>
-<body>
-    <div id="outer" style="width:100%">
-        <div id="myTextDiv">
-            <span id="time">00:00</span>
-        </div>
-    </div>
-    <div id="map"></div>
+
 </body>
 </html>

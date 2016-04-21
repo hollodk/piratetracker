@@ -1,5 +1,6 @@
+var map;
 function initialize() {
-    var map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
         center: {lat: 57.0445, lng: 9.93},
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -74,3 +75,8 @@ function autoRefresh(map) {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+$(document).ready(function() {
+    getImages();
+    getRoutes();
+});

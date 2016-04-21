@@ -93,13 +93,11 @@ class AjaxController extends Controller
     private function getShoutMarker(ShoutOut $shout)
     {
         $marker = new \StdClass();
-        $marker->id = sprintf('123%d', $shout->getId());
+        $marker->id = sprintf('10000%d', $shout->getId());
         $marker->coords = array(
             'lat' => $shout->getLatitude(),
             'lon' => $shout->getLongitude()
         );
-
-        $effect = null;
 
         if ($shout) {
             $diff = $shout->getCreatedAt()->diff(new \DateTime());
@@ -108,16 +106,8 @@ class AjaxController extends Controller
             $minutes += $diff->h * 60;
             $minutes += $diff->i;
 
-            if ($minutes < 20) {
-                $bounce = true;
-            }
+            $marker->minutes_ago = $minutes;
         }
-
-        if (isset($bounce) && $bounce) {
-            $effect = 'bounce';
-        }
-
-        $marker->effect = $effect;
 
         $base = '/bundles/hollotracker/images/';
 
@@ -145,7 +135,7 @@ class AjaxController extends Controller
     private function getUserMarker(User $user)
     {
         $marker = new \StdClass();
-        $marker->id = $user->getId();
+        $marker->id = sprintf('%d', $user->getId());
 
         $position = $user->getPosition();
         $fraction = $user->getFraction();
@@ -157,8 +147,6 @@ class AjaxController extends Controller
             'lat' => $position->getLatitude(),
             'lon' => $position->getLongitude()
         );
-
-        $marker->effect = null;
 
         $base = '/bundles/hollotracker/images/';
         $icon = 'marker-grey-small.png';
