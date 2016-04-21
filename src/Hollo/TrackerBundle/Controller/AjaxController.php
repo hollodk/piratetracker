@@ -94,6 +94,10 @@ class AjaxController extends Controller
     {
         $marker = new \StdClass();
         $marker->id = sprintf('10000%d', $shout->getId());
+        $marker->type = 'shout';
+        $marker->name = $shout->getUser()->getUsername();
+        $marker->time = $shout->getCreatedAt()->format('H:i');
+
         $marker->coords = array(
             'lat' => $shout->getLatitude(),
             'lon' => $shout->getLongitude()
@@ -136,6 +140,9 @@ class AjaxController extends Controller
     {
         $marker = new \StdClass();
         $marker->id = sprintf('%d', $user->getId());
+        $marker->type = 'user';
+        $marker->name = $user->getUsername();
+        $marker->time = null;
 
         $position = $user->getPosition();
         $fraction = $user->getFraction();
@@ -160,6 +167,8 @@ class AjaxController extends Controller
             } elseif ($fraction && strlen($fraction->getIcon()) > 0) {
                 $icon = $fraction->getIcon();
             }
+
+            $marker->time = $position->getCreatedAt()->format('H:i');
         }
 
         $marker->icon = sprintf('%s/%s/%s',

@@ -1,4 +1,4 @@
-function getMarkers()
+function getMarkers(firstRun)
 {
     $.ajax({
         type: 'GET',
@@ -28,7 +28,7 @@ function getMarkers()
 
                 var animation;
 
-                if (!markersFirstRun) {
+                if (!firstRun) {
                     animation = google.maps.Animation.BOUNCE;
                 } else {
                     if (value.minutes_ago < 20) {
@@ -60,16 +60,32 @@ function getMarkers()
                     infowindow.setContent(value.infowindow);
                     infowindow.open(map, marker);
                 });
+
+                log(value, firstRun);
+
             } else if (move) {
                 var latLng = new google.maps.LatLng( value.coords.lat, value.coords.lon );
 
                 movingMarker.marker.setPosition(latLng);
                 movingMarker.latlng = value.coords.lat+value.coords.lon;
+
+                log(value, firstRun);
             }
         });
-
-        markersFirstRun = false;
     });
+}
+
+function log(value, firstRun)
+{
+    if (!firstRun) {
+        if (value.type == 'user') {
+            $('#event_log').prepend('<p>'+value.time+', '+value.name+' moved location');
+        } else if (value.type == 'shout') {
+            $('#event_log').prepend('<p>'+value.time+', '+value.name+' shouted!!');
+        }
+
+        $('#event_log').show();
+    }
 }
 
 function getImages()

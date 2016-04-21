@@ -4,19 +4,18 @@ var map = new google.maps.Map(document.getElementById("map_canvas"), {
     "zoom": zoom
 });
 var markers = [];
-var markersFirstRun = true;
 
 var center = new google.maps.LatLng(center.lat, center.lon);
 map.setCenter(center);
 
 $(document).ready(function() {
 
-    getMarkers();
+    getMarkers(true);
     getImages();
     getRoutes();
 
     setInterval(function() {
-        getMarkers();
+        getMarkers(false);
     }, 15000);
 
 });
