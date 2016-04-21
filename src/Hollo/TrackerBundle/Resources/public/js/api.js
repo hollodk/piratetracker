@@ -61,25 +61,30 @@ function getMarkers(firstRun)
                     infowindow.open(map, marker);
                 });
 
-                log(value, firstRun);
+                log(value, 0, firstRun);
 
             } else if (move) {
                 var latLng = new google.maps.LatLng( value.coords.lat, value.coords.lng );
+                var distance = google.maps.geometry.spherical.computeDistanceBetween (movingMarker.marker.position, latLng);
 
                 movingMarker.marker.setPosition(latLng);
                 movingMarker.latlng = value.coords.lat+value.coords.lng;
 
-                log(value, firstRun);
+                log(value, distance, firstRun);
             }
         });
     });
 }
 
-function log(value, firstRun)
+function log(value, distance, firstRun)
 {
     if (!firstRun) {
         if (value.type == 'user') {
-            $('#event_log').prepend('<p>'+value.time+', '+value.name+' moved location');
+            if (distance == 0) {
+                $('#event_log').prepend('<p>'+value.time+', welcome to ' +value.name);
+            } else {
+                $('#event_log').prepend('<p>'+value.time+', '+value.name+' moved '+Math.ceil(distance)+'m');
+            }
         } else if (value.type == 'shout') {
             $('#event_log').prepend('<p>'+value.time+', '+value.name+' shouted!!');
         }

@@ -17,5 +17,4 @@ $(document).ready(function() {
     setInterval(function() {
         getMarkers(false);
     }, 15000);
-
 });
