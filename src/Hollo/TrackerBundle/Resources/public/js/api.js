@@ -43,6 +43,10 @@ function getMarkers()
                     "icon":image
                 });
 
+                setTimeout(function() {
+                    marker.setAnimation(null);
+                }, 600000);
+
                 var r = {
                     id: value.id,
                     latlng: value.coords.lat+value.coords.lon,
