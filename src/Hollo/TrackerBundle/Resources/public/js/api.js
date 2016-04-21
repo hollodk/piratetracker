@@ -15,7 +15,7 @@ function getMarkers(firstRun)
                 if (markers[i].id == value.id) {
                     match = true;
 
-                    if (markers[i].latlng != value.coords.lat+value.coords.lon) {
+                    if (markers[i].latlng != value.coords.lat+value.coords.lng) {
                         move = true;
                         movingMarker = markers[i];
                     }
@@ -23,7 +23,7 @@ function getMarkers(firstRun)
             }
 
             if (!match) {
-                var latLng = new google.maps.LatLng(value.coords.lat, value.coords.lon);
+                var latLng = new google.maps.LatLng(value.coords.lat, value.coords.lng);
                 var image = new google.maps.MarkerImage(value.icon);
 
                 var animation;
@@ -49,7 +49,7 @@ function getMarkers(firstRun)
 
                 var r = {
                     id: value.id,
-                    latlng: value.coords.lat+value.coords.lon,
+                    latlng: value.coords.lat+value.coords.lng,
                     marker: marker
                 };
 
@@ -64,10 +64,10 @@ function getMarkers(firstRun)
                 log(value, firstRun);
 
             } else if (move) {
-                var latLng = new google.maps.LatLng( value.coords.lat, value.coords.lon );
+                var latLng = new google.maps.LatLng( value.coords.lat, value.coords.lng );
 
                 movingMarker.marker.setPosition(latLng);
-                movingMarker.latlng = value.coords.lat+value.coords.lon;
+                movingMarker.latlng = value.coords.lat+value.coords.lng;
 
                 log(value, firstRun);
             }
@@ -117,7 +117,7 @@ function getRoutes()
             var path = [];
 
             for (var i = 0; i < value.coords.length; i++) {
-                latLng = new google.maps.LatLng(value.coords[i].lat, value.coords[i].lon);
+                latLng = new google.maps.LatLng(value.coords[i].lat, value.coords[i].lng);
                 path.push(latLng);
             }
 

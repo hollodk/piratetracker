@@ -100,7 +100,7 @@ class AjaxController extends Controller
 
         $marker->coords = array(
             'lat' => $shout->getLatitude(),
-            'lon' => $shout->getLongitude()
+            'lng' => $shout->getLongitude()
         );
 
         if ($shout) {
@@ -152,7 +152,7 @@ class AjaxController extends Controller
 
         $marker->coords = array(
             'lat' => $position->getLatitude(),
-            'lon' => $position->getLongitude()
+            'lng' => $position->getLongitude()
         );
 
         $base = '/bundles/hollotracker/images/';
@@ -334,7 +334,7 @@ class AjaxController extends Controller
             foreach ($entities as $position) {
                 $res->coords[] = array(
                     'lat' => $position->getLatitude(),
-                    'lon' => $position->getLongitude()
+                    'lng' => $position->getLongitude()
                 );
             }
         }

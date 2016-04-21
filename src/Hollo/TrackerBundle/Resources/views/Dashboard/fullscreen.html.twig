@@ -31,7 +31,7 @@ var imagesUrl = "{{ path('hollo_tracker_ajax_images') }}";
 var routesUrl = "{{ path('hollo_tracker_ajax_routes') }}";
 var markersUrl = "{{ path('hollo_tracker_ajax_markers') }}";
 var zoom = {{ zoom }};
-var center = {lat: {{ center.lat }}, lon: {{ center.lon }}};
+var center = {lat: {{ center.lat }}, lng: {{ center.lng }}};
 
 var data;
 {% if currentUser is defined %}

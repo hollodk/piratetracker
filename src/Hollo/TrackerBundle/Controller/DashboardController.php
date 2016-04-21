@@ -38,7 +38,7 @@ class DashboardController extends Controller
         if ($r && $r->getPosition()) {
             $center = array(
                 'lat' => $r->getPosition()->getLatitude(),
-                'lon' => $r->getPosition()->getLongitude()
+                'lng' => $r->getPosition()->getLongitude()
             );
         }
 
@@ -65,7 +65,7 @@ class DashboardController extends Controller
         if ($r && $r->getPosition()) {
             $center = array(
                 'lat' => $r->getPosition()->getLatitude(),
-                'lon' => $r->getPosition()->getLongitude()
+                'lng' => $r->getPosition()->getLongitude()
             );
         }
 
@@ -88,7 +88,7 @@ class DashboardController extends Controller
         if ($user->getPosition()) {
             $center = array(
                 'lat' => $user->getPosition()->getLatitude(),
-                'lon' => $user->getPosition()->getLongitude()
+                'lng' => $user->getPosition()->getLongitude()
             );
         }
 

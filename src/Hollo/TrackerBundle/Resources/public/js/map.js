@@ -5,7 +5,7 @@ var map = new google.maps.Map(document.getElementById("map_canvas"), {
 });
 var markers = [];
 
-var center = new google.maps.LatLng(center.lat, center.lon);
+var center = new google.maps.LatLng(center.lat, center.lng);
 map.setCenter(center);
 
 $(document).ready(function() {
