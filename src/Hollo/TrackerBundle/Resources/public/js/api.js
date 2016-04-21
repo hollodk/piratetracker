@@ -50,6 +50,7 @@ function getMarkers(firstRun)
                 var r = {
                     id: value.id,
                     latlng: value.coords.lat+value.coords.lng,
+                    coords: value.coords,
                     marker: marker
                 };
 
@@ -70,6 +71,24 @@ function getMarkers(firstRun)
                 movingMarker.marker.setPosition(latLng);
                 movingMarker.latlng = value.coords.lat+value.coords.lng;
 
+                var coords = [
+                {lat: movingMarker.coords.lat, lng: movingMarker.coords.lng},
+                {lat: value.coords.lat, lng: value.coords.lng},
+                ];
+                var coordsPath = new google.maps.Polyline({
+                    path: coords,
+                    geodesic: true,
+                    strokeColor: '#333',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 1
+                });
+
+                coordsPath.setMap(map);
+
+                setTimeout(function() {
+                    coordsPath.setMap(null);
+                }, 600000);
+
                 log(value, distance, firstRun);
             }
         });
@@ -78,18 +97,27 @@ function getMarkers(firstRun)
 
 function log(value, distance, firstRun)
 {
+    var distanceText;
+
+    if (distance > 1000) {
+        distanceText = Math.ceil(distance/1000)+'km';
+    } else {
+        distanceText = Math.ceil(distance)+'m';
+    }
+
     if (!firstRun) {
         if (value.type == 'user') {
             if (distance == 0) {
-                $('#event_log').prepend('<p>'+value.time+', welcome to ' +value.name);
-            } else {
-                $('#event_log').prepend('<p>'+value.time+', '+value.name+' moved '+Math.ceil(distance)+'m');
+                $('#event_log').prepend('<p><span class="fa fa-map-marker"></span> '+value.time+', welcome to ' +value.name);
+                $('#event_log').show();
+            } else if (distance > 50) {
+                $('#event_log').prepend('<p><span class="fa fa-globe"></span> '+value.time+', '+value.name+' moved '+distanceText);
+                $('#event_log').show();
             }
         } else if (value.type == 'shout') {
-            $('#event_log').prepend('<p>'+value.time+', '+value.name+' shouted!!');
+            $('#event_log').prepend('<p><span class="fa fa-bullhorn"></span> '+value.time+', '+value.name+' shouted!!');
+            $('#event_log').show();
         }
-
-        $('#event_log').show();
     }
 }
 
